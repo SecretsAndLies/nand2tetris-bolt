@@ -457,25 +457,27 @@ public class Definitions {
      * Returns the hack key code from the given key event.
      */
     public short getKeyCode(KeyEvent e) {
-        short key = 0;
-        int letter = (int)e.getKeyChar();
+        short key;
+        char keyChar = e.getKeyChar();
         short code = (short)e.getKeyCode();
 
-        if (letter == KeyEvent.CHAR_UNDEFINED)
+        // Check if the character is undefined
+        if (keyChar == KeyEvent.CHAR_UNDEFINED) {
             key = actionKeyCodes[code];
-        else {
-            if (code >= 65 && code <= 90)
-                key = code;
-            else if (letter == 8)
+        } else {
+            // Handle action keys separately
+            if (keyChar == '\b') { // Backspace
                 key = BACKSPACE_KEY;
-            else if (letter == 10)
+            } else if (keyChar == '\n') { // Newline
                 key = NEWLINE_KEY;
-            else if (letter == 27)
+            } else if (keyChar == 27) { // Escape
                 key = ESC_KEY;
-            else if (letter == 127)
+            } else if (keyChar == 127) { // Delete
                 key = DELETE_KEY;
-            else
-                key = (short)letter;
+            } else {
+                // For all other characters, respect the case
+                key = (short)keyChar;
+            }
         }
 
         return key;
@@ -485,12 +487,17 @@ public class Definitions {
      * Returns the key name from the given key event.
      */
     public String getKeyName(KeyEvent e) {
-        String modifiers = e.getKeyModifiersText(e.getModifiers());
-        String result = modifiers + (modifiers.length() > 0 ? "+" : "")
-                        + e.getKeyText(e.getKeyCode());
+        char keyChar = e.getKeyChar();
+        String keyText;
+        if (keyChar != KeyEvent.CHAR_UNDEFINED) {
+            keyText=String.valueOf(keyChar);
+        } else{
+            keyText=KeyEvent.getKeyText(e.getKeyCode());
+        }
+        return keyText;
 
-        return result;
     }
+
 
     // initializes address translation table
     private void initAddresses() {
