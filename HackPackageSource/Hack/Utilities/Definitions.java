@@ -491,7 +491,7 @@ public class Definitions {
         String keyText;
         if (keyChar != KeyEvent.CHAR_UNDEFINED) {
             keyText=String.valueOf(keyChar);
-        } else{
+        } else {
             keyText=KeyEvent.getKeyText(e.getKeyCode());
         }
         return keyText;
