@@ -28,7 +28,7 @@ public class Definitions {
     /**
      * Current software version
      */
-    public static final String version = "2.6 - Ali";
+    public static final String version = "2.6";
 
     /**
      * Size of RAM
@@ -494,8 +494,9 @@ public class Definitions {
         } else {
             keyText=KeyEvent.getKeyText(e.getKeyCode());
         }
+        // TODO: could include this - ask John.
+//        return keyText + " (" + getKeyCode(e)+ ")";
         return keyText;
-
     }
 
 
