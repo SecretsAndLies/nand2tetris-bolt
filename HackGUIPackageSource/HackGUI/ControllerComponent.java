@@ -123,10 +123,10 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     public ControllerComponent() {
         listeners = new Vector();
         formatCombo = new TitledComboBox("Format:", "Numeric display format",
-                                         new String[]{"Decimal", "Hexa", "Binary"}, 75);
+                                         new String[]{"Decimal", "Hexa", "Binary"}, 100);
         additionalDisplayCombo = new TitledComboBox("View:", "View options",
                                                     new String[]{"Script", "Output", "Compare",
-                                                                 "Screen"}, 80);
+                                                                 "Screen"}, 90);
         animationCombo = new TitledComboBox("Animate:", "Animtion type",
                                             new String[]{"Program flow", "Program & data flow",
                                                          "No animation"}, 135);

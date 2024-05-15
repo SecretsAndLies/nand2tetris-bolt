@@ -227,7 +227,7 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
         messageTxt.setBounds(new Rectangle(37, 3, 154, 22));
         messageTxt.setVisible(false);
         romFormat.setPreferredSize(new Dimension(125, 23));
-        romFormat.setBounds(new Rectangle(39, 3, 56, 23));
+        romFormat.setBounds(new Rectangle(31, 3, 75, 23));
         romFormat.setFont(Utilities.thinLabelsFont);
         romFormat.setToolTipText("Display Format");
         romFormat.addActionListener(new java.awt.event.ActionListener() {
