@@ -87,8 +87,8 @@ public class KeyboardComponent extends JPanel implements KeyboardGUI {
         this.add(keyButton, null);
         this.add(keyNameText, null);
 
-        setPreferredSize(new Dimension(516, 27));
-        setSize(516, 27);
+        setPreferredSize(new Dimension(516, 29));
+        setSize(516, 29);
     }
 
     /**
