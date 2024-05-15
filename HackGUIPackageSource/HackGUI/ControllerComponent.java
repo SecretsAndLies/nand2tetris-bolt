@@ -741,7 +741,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         runMenu.add(breakpointsMenuItem);
 
         usageMenuItem = new JMenuItem("Usage", KeyEvent.VK_U);
-        usageMenuItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
         usageMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 usageMenuItem_actionPerformed(e);
@@ -749,7 +748,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         });
         helpMenu.add(usageMenuItem);
 
-        aboutMenuItem = new JMenuItem("About ...", KeyEvent.VK_A);
+        aboutMenuItem = new JMenuItem("About", KeyEvent.VK_A);
         aboutMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 aboutMenuItem_actionPerformed(e);
