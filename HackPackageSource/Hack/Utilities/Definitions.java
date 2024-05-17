@@ -494,9 +494,7 @@ public class Definitions {
         } else {
             keyText=KeyEvent.getKeyText(e.getKeyCode());
         }
-        // TODO: could include this - ask John.
-//        return keyText + " (" + getKeyCode(e)+ ")";
-        return keyText;
+        return "'" + keyText + "' (0d" + getKeyCode(e)+ ")";
     }
 
 
