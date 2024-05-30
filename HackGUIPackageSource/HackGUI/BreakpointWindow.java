@@ -93,6 +93,10 @@ public class BreakpointWindow extends JFrame implements MouseListener, Breakpoin
         variables.setVariables(newVars);
     }
 
+    public BreakpointVariablesWindow getVariables() {
+        return variables;
+    }
+
     /**
     * Registers the given BreakpointChangedListener as a listener to this component.
     */
@@ -132,7 +136,10 @@ public class BreakpointWindow extends JFrame implements MouseListener, Breakpoin
      */
     public void breakpointChanged(BreakpointChangedEvent event) {
         Breakpoint p = event.getBreakpoint();
-        if(selectedRowIndex == -1)
+        if(breakpoints.contains(p)){
+            breakpoints.remove(p);
+        }
+        else if(selectedRowIndex == -1)
             breakpoints.addElement(p);
         else
             breakpoints.setElementAt(p,selectedRowIndex);

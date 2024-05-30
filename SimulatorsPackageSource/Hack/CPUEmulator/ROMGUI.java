@@ -19,6 +19,7 @@ package Hack.CPUEmulator;
 
 import Hack.ComputerParts.*;
 import Hack.Events.*;
+import HackGUI.BreakpointVariablesWindow;
 import HackGUI.BreakpointsChangedListener;
 
 /**
@@ -30,9 +31,12 @@ import HackGUI.BreakpointsChangedListener;
  */
 public interface ROMGUI extends PointedMemoryGUI {
 
-    /**
-     * Registers the given ProgramEventListener as a listener to this GUI.
-     */
+    public void setBreakpointVariablesWindow(
+            BreakpointVariablesWindow breakpointVariablesWindow);
+
+        /**
+         * Registers the given ProgramEventListener as a listener to this GUI.
+         */
     public void addProgramListener(ProgramEventListener listener);
 
     /**

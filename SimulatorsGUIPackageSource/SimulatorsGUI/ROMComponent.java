@@ -72,6 +72,8 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI  {
 
     private ArrayList<Integer> breakpointRows = new ArrayList<>();
 
+    private BreakpointVariablesWindow breakpointVariablesWindow;
+
     // The listener for changes in breakpoints.
     private BreakpointsChangedListener breakpointsChangedListener= new BreakpointsChangedListener() {
         @Override
@@ -101,6 +103,11 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI  {
 
     public BreakpointsChangedListener getBreakpointsChangedListener() {
         return breakpointsChangedListener;
+    }
+
+    public void setBreakpointVariablesWindow(
+            BreakpointVariablesWindow breakpointVariablesWindow) {
+        this.breakpointVariablesWindow = breakpointVariablesWindow;
     }
 
     public void setNumericFormat(int formatCode) {
@@ -252,10 +259,27 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI  {
         romFormat.setBounds(new Rectangle(31, 3, 75, 23));
         romFormat.setFont(Utilities.thinLabelsFont);
         romFormat.setToolTipText("Display Format");
-        romFormat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                romFormat_actionPerformed(e);
+        // todo: this is kinda messy - can you put this somewhere else?
+        super.memoryTable.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(SwingUtilities.isRightMouseButton(e)){
+                    int rowNumber = ROMComponent.super.memoryTable.rowAtPoint(e.getPoint());
+                    // access breakpoint varialbes window. Run setbreakpoint name and setvalue as row, then update listeners.
+                    // will do hacky, then can convert this to fancy with listeners?
+                    breakpointVariablesWindow.addBreakpoint("PC", Integer.toString(rowNumber));
+                    ROMComponent.super.repaint();
+                    // tODO: figure out how to remove breakpoints. Right now it just adds for days.
+                }
             }
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+            @Override
+            public void mouseExited(MouseEvent e) {}
         });
         this.add(messageTxt, null);
         this.add(loadButton);
