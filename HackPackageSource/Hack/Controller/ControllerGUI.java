@@ -17,6 +17,8 @@
 
 package Hack.Controller;
 
+import HackGUI.BreakpointWindow;
+
 import java.util.*;
 import javax.swing.*;
 import java.io.*;
@@ -89,8 +91,13 @@ public interface ControllerGUI {
     public void setCurrentOutputLine(int line);
 
     /**
-     * Returns the output file component.
+     * Returns the breakpoint window.
      */
+    public BreakpointWindow getBreakpointWindow();
+
+        /**
+         * Returns the output file component.
+         */
     public JComponent getOutputComponent();
 
     /**

@@ -19,6 +19,7 @@ package Hack.CPUEmulator;
 
 import Hack.ComputerParts.*;
 import Hack.Events.*;
+import HackGUI.BreakpointsChangedListener;
 
 /**
  * An interface for a computer ROM GUI, which is a Pointed Memory GUI.
@@ -60,4 +61,8 @@ public interface ROMGUI extends PointedMemoryGUI {
      * Hides the displayed message.
      */
     public void hideMessage();
-}
+
+
+    public BreakpointsChangedListener getBreakpointsChangedListener();
+
+    }

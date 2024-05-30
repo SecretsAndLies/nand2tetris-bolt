@@ -571,6 +571,14 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
         memoryTable.clearSelection();
     }
 
+//    /**
+//     * Implementing the action of the table right click. XXX
+//     */
+//    public void memoryTable_rightClick(FocusEvent e) {
+//        memoryTable.clearSelection();
+//        notifyListeners();
+//    }
+
     /**
      * Implementing the action of pressing the search button.
      */

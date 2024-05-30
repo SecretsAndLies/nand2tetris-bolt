@@ -138,6 +138,10 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         jbInit();
     }
 
+    public BreakpointWindow getBreakpointWindow(){
+        return breakpointWindow;
+    }
+
     public void setWorkingDir(File file) {
         fileChooser.setCurrentDirectory(file);
     }
