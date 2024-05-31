@@ -86,6 +86,7 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI  {
                     breakpointRows.add(Integer.valueOf(breakpoint.getValue()));
                 }
             }
+            repaint();
         }
     };
 
