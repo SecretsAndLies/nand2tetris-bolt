@@ -189,8 +189,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         breakButton = new MouseOverJButton();
         singleStepButton = new MouseOverJButton();
         speedTextEntry = new JFormattedTextField();
-        speedTextEntry.setColumns(4);
-        speedTextEntry.setText("1hz");
     }
 
 
@@ -810,6 +808,10 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         speedSlider.setToolTipText("Speed");
         speedSlider.setMaximumSize(new Dimension(95, 50));
 
+        speedTextEntry.setColumns(4);
+        speedTextEntry.setText("1hz");
+        speedTextEntry.setToolTipText("Speed");
+
         loadProgramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 loadProgramButton_actionPerformed(e);
@@ -1027,6 +1029,8 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         if (!source.getValueIsAdjusting()) {
             int speed = (int)source.getValue();
             notifyControllerListeners(ControllerEvent.SPEED_CHANGE, new Integer(speed));
+            // todo: this is wrong. needs to be converted to actual speed which is stored in hack controller.
+            speedTextEntry.setText(speed+"hz");
         }
     }
 

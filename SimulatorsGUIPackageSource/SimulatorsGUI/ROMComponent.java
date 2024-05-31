@@ -260,7 +260,11 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI  {
         romFormat.setBounds(new Rectangle(31, 3, 75, 23));
         romFormat.setFont(Utilities.thinLabelsFont);
         romFormat.setToolTipText("Display Format");
-        // todo: this is kinda messy - can you put this somewhere else?
+        romFormat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                romFormat_actionPerformed(e);
+            }});
+        // todo: this is kinda messy - can you put this somewhere else? eg a method.
         super.memoryTable.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -270,7 +274,6 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI  {
                     // will do hacky, then can convert this to fancy with listeners?
                     breakpointVariablesWindow.addBreakpoint("PC", Integer.toString(rowNumber));
                     ROMComponent.super.repaint();
-                    // tODO: figure out how to remove breakpoints. Right now it just adds for days.
                 }
             }
             @Override
