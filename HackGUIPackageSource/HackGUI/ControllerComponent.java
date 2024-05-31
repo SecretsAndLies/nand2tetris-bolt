@@ -83,6 +83,9 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     // The speed slider.
     protected JSlider speedSlider;
 
+    // The text field that allows users to enter speeds manually.
+    protected JFormattedTextField speedTextEntry;
+
     // A combo box which controls the format of all the components.
     protected TitledComboBox formatCombo;
 
@@ -105,6 +108,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     protected JRadioButtonMenuItem decMenuItem, hexaMenuItem, binMenuItem;
     protected JRadioButtonMenuItem scriptDisplayMenuItem, outputMenuItem, compareMenuItem, noAdditionalDisplayMenuItem;
     protected JRadioButtonMenuItem partAnimMenuItem, fullAnimMenuItem, noAnimMenuItem;
+
 
     // the message label (status line)
     protected JLabel messageLbl = new JLabel();
@@ -184,6 +188,9 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         scriptButton = new MouseOverJButton();
         breakButton = new MouseOverJButton();
         singleStepButton = new MouseOverJButton();
+        speedTextEntry = new JFormattedTextField();
+        speedTextEntry.setColumns(4);
+        speedTextEntry.setText("1hz");
     }
 
 
@@ -517,9 +524,12 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         toolBar.add(breakButton);
         toolBar.addSeparator(separatorDimension);
         toolBar.add(speedSlider);
+        toolBar.add(speedTextEntry);
+        toolBar.addSeparator(separatorDimension);
         toolBar.add(animationCombo);
         toolBar.add(additionalDisplayCombo);
         toolBar.add(formatCombo);
+
     }
 
     /**
@@ -776,7 +786,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         fileChooser.setFileFilter(new ScriptFileFilter());
         this.getContentPane().setLayout(null);
 
-        Hashtable labelTable = new Hashtable();
+        Hashtable<Integer,JLabel> labelTable = new Hashtable<>();
 
         JLabel slowLabel = new JLabel("Slow");
         slowLabel.setFont(Utilities.thinLabelsFont);
