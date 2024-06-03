@@ -380,7 +380,6 @@ public class HackController
     // Executes a single step from the script, checks for a breakpoint and
     // sets the status of the system accordingly.
     private synchronized void singleStep() {
-
         singleStepLocked = true;
 
         try {
@@ -418,14 +417,9 @@ public class HackController
                     gui.setBreakpoints(breakpoints);
                 }
             }
-        } catch (ControllerException ce) {
+        } catch (ControllerException | CommandException | ProgramException |
+                 VariableException ce) {
             stopWithError(ce);
-        } catch (ProgramException pe) {
-            stopWithError(pe);
-        } catch (CommandException ce) {
-            stopWithError(ce);
-        } catch (VariableException ve) {
-            stopWithError(ve);
         }
 
         singleStepLocked = false;
@@ -1116,7 +1110,6 @@ public class HackController
                         wait(1);
                     } catch (InterruptedException ie) {}
                 }
-
                 count++;
             }
         }
