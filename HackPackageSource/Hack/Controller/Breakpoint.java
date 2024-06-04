@@ -82,7 +82,7 @@ public class Breakpoint {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Breakpoint that = (Breakpoint) o;
-        return reached == that.reached && Objects.equals(varName,
+        return  Objects.equals(varName,
                 that.varName) && Objects.equals(value, that.value);
     }
 
