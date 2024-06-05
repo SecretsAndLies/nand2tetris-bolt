@@ -23,6 +23,8 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
 import java.awt.*;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -812,6 +814,13 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         speedTextEntry.setText("1hz");
         speedTextEntry.setToolTipText("Speed");
 
+        speedTextEntry.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                speedTextEntry_actionPerformed(e);
+            }
+        });
+
         loadProgramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 loadProgramButton_actionPerformed(e);
@@ -972,6 +981,20 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         notifyControllerListeners(ControllerEvent.ADDITIONAL_DISPLAY_CHANGE, new Integer(selectedIndex));
     }
 
+    public void speedTextEntry_actionPerformed(ActionEvent e){
+        Integer speed = null;
+        try {
+            speed = NumberFormat.getInstance().parse(speedTextEntry.getText()).intValue();
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        notifyControllerListeners(ControllerEvent.SPEED_CHANGE,speed);
+        speedTextEntry.setText(speed+"hz");
+        speedSlider.setValue(speed);
+    }
+
+
     /**
      * Called when the load program button was pressed.
      */
@@ -1031,6 +1054,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
             notifyControllerListeners(ControllerEvent.SPEED_CHANGE, new Integer(speed));
             // todo: this is wrong. needs to be converted to actual speed which is stored in hack controller.
             speedTextEntry.setText(speed+"hz");
+            // this is in case this is called by entering text directly in the textbox, otherwise it's redundant.
         }
     }
 
