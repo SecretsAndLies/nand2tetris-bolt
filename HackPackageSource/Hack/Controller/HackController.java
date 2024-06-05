@@ -764,6 +764,7 @@ public class HackController
     private void setSpeed(int newSpeedUnit) {
         currentSpeedUnit = newSpeedUnit;
         timer.setDelay(delays[currentSpeedUnit - 1]);
+        System.out.println(delays[currentSpeedUnit - 1]);
         simulator.setAnimationSpeed(newSpeedUnit);
     }
 

@@ -1049,12 +1049,18 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
      */
     public void SpeedSlider_stateChanged(ChangeEvent e) {
         JSlider source = (JSlider)e.getSource();
+        // todo: these items should be calculated based on what's in hack controller. They are 1/delay in seconds. (Not ms)
+        ArrayList<Double> speedInHz = new ArrayList<>();
+        speedInHz.add(0.4); // 2500 delay
+        speedInHz.add(0.6); // 1633
+        speedInHz.add(1.06); // 940
+        speedInHz.add(2.89); // 346
+        speedInHz.add(40.0); // 25
         if (!source.getValueIsAdjusting()) {
             int speed = (int)source.getValue();
             notifyControllerListeners(ControllerEvent.SPEED_CHANGE, new Integer(speed));
-            // todo: this is wrong. needs to be converted to actual speed which is stored in hack controller.
-            speedTextEntry.setText(speed+"hz");
-            // this is in case this is called by entering text directly in the textbox, otherwise it's redundant.
+            // todo: this is wrong. needs to be converted to actual speed
+            speedTextEntry.setText(speedInHz.get(speed-1)+"hz");
         }
     }
 
