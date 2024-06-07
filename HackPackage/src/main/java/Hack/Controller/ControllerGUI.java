@@ -93,7 +93,7 @@ public interface ControllerGUI {
     /**
      * Returns the breakpoint window.
      */
-    public BreakpointWindow getBreakpointWindow();
+//    public BreakpointWindow getBreakpointWindow();
 
         /**
          * Returns the output file component.
