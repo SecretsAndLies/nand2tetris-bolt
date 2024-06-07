@@ -28,7 +28,7 @@ public class Definitions {
     /**
      * Current software version
      */
-    public static final String version = "2.6";
+    public static final String version = "2.5";
 
     /**
      * Size of RAM
@@ -457,27 +457,25 @@ public class Definitions {
      * Returns the hack key code from the given key event.
      */
     public short getKeyCode(KeyEvent e) {
-        short key;
-        char keyChar = e.getKeyChar();
+        short key = 0;
+        int letter = (int)e.getKeyChar();
         short code = (short)e.getKeyCode();
 
-        // Check if the character is undefined
-        if (keyChar == KeyEvent.CHAR_UNDEFINED) {
+        if (letter == KeyEvent.CHAR_UNDEFINED)
             key = actionKeyCodes[code];
-        } else {
-            // Handle action keys separately
-            if (keyChar == '\b') { // Backspace
+        else {
+            if (code >= 65 && code <= 90)
+                key = code;
+            else if (letter == 8)
                 key = BACKSPACE_KEY;
-            } else if (keyChar == '\n') { // Newline
+            else if (letter == 10)
                 key = NEWLINE_KEY;
-            } else if (keyChar == 27) { // Escape
+            else if (letter == 27)
                 key = ESC_KEY;
-            } else if (keyChar == 127) { // Delete
+            else if (letter == 127)
                 key = DELETE_KEY;
-            } else {
-                // For all other characters, respect the case
-                key = (short)keyChar;
-            }
+            else
+                key = (short)letter;
         }
 
         return key;
@@ -487,16 +485,12 @@ public class Definitions {
      * Returns the key name from the given key event.
      */
     public String getKeyName(KeyEvent e) {
-        char keyChar = e.getKeyChar();
-        String keyText;
-        if (keyChar != KeyEvent.CHAR_UNDEFINED) {
-            keyText=String.valueOf(keyChar);
-        } else {
-            keyText=KeyEvent.getKeyText(e.getKeyCode());
-        }
-        return "'" + keyText + "' (0d" + getKeyCode(e)+ ")";
-    }
+        String modifiers = e.getKeyModifiersText(e.getModifiers());
+        String result = modifiers + (modifiers.length() > 0 ? "+" : "")
+                        + e.getKeyText(e.getKeyCode());
 
+        return result;
+    }
 
     // initializes address translation table
     private void initAddresses() {

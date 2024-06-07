@@ -13,15 +13,6 @@ supports the book "The Elements of Computing Systems" by Nisan and Schocken,
 MIT Press 2005. If you modify the contents of this file, please document and
 mark your changes clearly, for the benefit of others.
 
-2.6
-===
-Fixed: CPU Emulator: Changed GUI keyboard button size.
-Fixed: CPU Emulator: Keyboard input now respects case. GUI
-       now shows 'a' and 'A' instead of A and "⇧+A".
-       No modifiers are shown anymore.
-Fixed: CPU Emulator: Changed dimensions of drop down buttons so
-       their default text fits inside (rather than the ellipsis that was
-       showing before).
 
 2.5
 ===

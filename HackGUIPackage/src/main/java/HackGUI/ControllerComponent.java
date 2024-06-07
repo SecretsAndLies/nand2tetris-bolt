@@ -23,8 +23,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.event.*;
 import java.awt.*;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -85,9 +83,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     // The speed slider.
     protected JSlider speedSlider;
 
-    // The text field that allows users to enter speeds manually.
-    protected JFormattedTextField speedTextEntry;
-
     // A combo box which controls the format of all the components.
     protected TitledComboBox formatCombo;
 
@@ -111,7 +106,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     protected JRadioButtonMenuItem scriptDisplayMenuItem, outputMenuItem, compareMenuItem, noAdditionalDisplayMenuItem;
     protected JRadioButtonMenuItem partAnimMenuItem, fullAnimMenuItem, noAnimMenuItem;
 
-
     // the message label (status line)
     protected JLabel messageLbl = new JLabel();
 
@@ -129,10 +123,10 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     public ControllerComponent() {
         listeners = new Vector();
         formatCombo = new TitledComboBox("Format:", "Numeric display format",
-                                         new String[]{"Decimal", "Hexa", "Binary"}, 100);
+                                         new String[]{"Decimal", "Hexa", "Binary"}, 75);
         additionalDisplayCombo = new TitledComboBox("View:", "View options",
                                                     new String[]{"Script", "Output", "Compare",
-                                                                 "Screen"}, 90);
+                                                                 "Screen"}, 80);
         animationCombo = new TitledComboBox("Animate:", "Animtion type",
                                             new String[]{"Program flow", "Program & data flow",
                                                          "No animation"}, 135);
@@ -142,10 +136,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
 
         init();
         jbInit();
-    }
-
-    public BreakpointWindow getBreakpointWindow(){
-        return breakpointWindow;
     }
 
     public void setWorkingDir(File file) {
@@ -190,7 +180,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         scriptButton = new MouseOverJButton();
         breakButton = new MouseOverJButton();
         singleStepButton = new MouseOverJButton();
-        speedTextEntry = new JFormattedTextField();
     }
 
 
@@ -524,12 +513,9 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         toolBar.add(breakButton);
         toolBar.addSeparator(separatorDimension);
         toolBar.add(speedSlider);
-        toolBar.add(speedTextEntry);
-        toolBar.addSeparator(separatorDimension);
         toolBar.add(animationCombo);
         toolBar.add(additionalDisplayCombo);
         toolBar.add(formatCombo);
-
     }
 
     /**
@@ -755,6 +741,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         runMenu.add(breakpointsMenuItem);
 
         usageMenuItem = new JMenuItem("Usage", KeyEvent.VK_U);
+        usageMenuItem.setAccelerator(KeyStroke.getKeyStroke("F1"));
         usageMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 usageMenuItem_actionPerformed(e);
@@ -762,7 +749,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         });
         helpMenu.add(usageMenuItem);
 
-        aboutMenuItem = new JMenuItem("About", KeyEvent.VK_A);
+        aboutMenuItem = new JMenuItem("About ...", KeyEvent.VK_A);
         aboutMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 aboutMenuItem_actionPerformed(e);
@@ -786,7 +773,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         fileChooser.setFileFilter(new ScriptFileFilter());
         this.getContentPane().setLayout(null);
 
-        Hashtable<Integer,JLabel> labelTable = new Hashtable<>();
+        Hashtable labelTable = new Hashtable();
 
         JLabel slowLabel = new JLabel("Slow");
         slowLabel.setFont(Utilities.thinLabelsFont);
@@ -809,17 +796,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         speedSlider.setMinimumSize(new Dimension(95, 50));
         speedSlider.setToolTipText("Speed");
         speedSlider.setMaximumSize(new Dimension(95, 50));
-
-        speedTextEntry.setColumns(4);
-        speedTextEntry.setText("1hz");
-        speedTextEntry.setToolTipText("Speed");
-
-        speedTextEntry.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                speedTextEntry_actionPerformed(e);
-            }
-        });
 
         loadProgramButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -981,20 +957,6 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         notifyControllerListeners(ControllerEvent.ADDITIONAL_DISPLAY_CHANGE, new Integer(selectedIndex));
     }
 
-    public void speedTextEntry_actionPerformed(ActionEvent e){
-        Integer speed = null;
-        try {
-            speed = NumberFormat.getInstance().parse(speedTextEntry.getText()).intValue();
-        } catch (ParseException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        notifyControllerListeners(ControllerEvent.SPEED_CHANGE,speed);
-        speedTextEntry.setText(speed+"hz");
-        speedSlider.setValue(speed);
-    }
-
-
     /**
      * Called when the load program button was pressed.
      */
@@ -1049,18 +1011,9 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
      */
     public void SpeedSlider_stateChanged(ChangeEvent e) {
         JSlider source = (JSlider)e.getSource();
-        // todo: these items should be calculated based on what's in hack controller. They are 1/delay in seconds. (Not ms)
-        ArrayList<Double> speedInHz = new ArrayList<>();
-        speedInHz.add(0.4); // 2500 delay
-        speedInHz.add(0.6); // 1633
-        speedInHz.add(1.06); // 940
-        speedInHz.add(2.89); // 346
-        speedInHz.add(40.0); // 25
         if (!source.getValueIsAdjusting()) {
             int speed = (int)source.getValue();
             notifyControllerListeners(ControllerEvent.SPEED_CHANGE, new Integer(speed));
-            // todo: this is wrong. needs to be converted to actual speed
-            speedTextEntry.setText(speedInHz.get(speed-1)+"hz");
         }
     }
 

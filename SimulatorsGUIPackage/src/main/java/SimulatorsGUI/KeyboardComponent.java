@@ -65,16 +65,16 @@ public class KeyboardComponent extends JPanel implements KeyboardGUI {
 
     // Initializes this component.
     private void jbInit() {
-        keyNameText.setBounds(new Rectangle(258, 0, 258, 29));
+        keyNameText.setBounds(new Rectangle(258, 0, 258, 27));
         keyNameText.setEnabled(false);
-        keyNameText.setFont(new Font("Helvetica", Font.BOLD, 14));
+        keyNameText.setFont(new Font("Times New Roman", 1, 14));
         keyNameText.setDisabledTextColor(Color.black);
         keyNameText.setEditable(false);
         keyNameText.setHorizontalAlignment(SwingConstants.CENTER);
         keyNameText.setBackground(SystemColor.info);
         this.setLayout(null);
         keyButton.setIcon(keyboardIcon);
-        keyButton.setBounds(new Rectangle(0, 0, 258, 29));
+        keyButton.setBounds(new Rectangle(0, 0, 258, 27));
         keyButton.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
                 keyButton_focusGained(e);
@@ -87,8 +87,8 @@ public class KeyboardComponent extends JPanel implements KeyboardGUI {
         this.add(keyButton, null);
         this.add(keyNameText, null);
 
-        setPreferredSize(new Dimension(516, 29));
-        setSize(516, 29);
+        setPreferredSize(new Dimension(516, 27));
+        setSize(516, 27);
     }
 
     /**

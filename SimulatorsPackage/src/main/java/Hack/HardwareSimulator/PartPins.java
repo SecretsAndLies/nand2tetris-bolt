@@ -65,9 +65,9 @@ public class PartPins extends ValueComputerPart {
         partGateClass = null;
 
         // remove all node gui adapters
-        Enumeration enume = nodes.keys();
-        while (enume.hasMoreElements()) {
-            Node node = (Node)enume.nextElement();
+        Enumeration en = nodes.keys();
+        while (en.hasMoreElements()) {
+            Node node = (Node)en.nextElement();
             Node nodeAdapter = (Node)nodes.get(node);
             node.removeListener(nodeAdapter);
         }

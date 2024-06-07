@@ -97,11 +97,6 @@ public class BreakpointVariablesWindow extends JFrame {
         }
     }
 
-    public void addBreakpoint(String name, String value){
-        breakpoint = new Breakpoint(name,value);
-        notifyListeners();
-    }
-
     /**
      * Sets the name of the breakpoint.
      */

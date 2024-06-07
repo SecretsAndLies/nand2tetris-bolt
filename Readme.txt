@@ -1,5 +1,3 @@
-A fork of the nand2tetris software, codenamed Bolt. See the change-log for what's new.
-
 The contents of this file are subject to the GNU General Public License
 (GPL) Version 2 or later (the "License"); you may not use this file except
 in compliance with the License. You may obtain a copy of the License at

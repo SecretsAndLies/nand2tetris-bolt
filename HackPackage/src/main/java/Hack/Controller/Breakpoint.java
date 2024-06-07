@@ -17,8 +17,6 @@
 
 package Hack.Controller;
 
-import java.util.Objects;
-
 /**
  * A controller script breakpoint: includes a variable and a desired value.
  */
@@ -75,19 +73,5 @@ public class Breakpoint {
      */
     public boolean isReached() {
         return reached;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Breakpoint that = (Breakpoint) o;
-        return  Objects.equals(varName,
-                that.varName) && Objects.equals(value, that.value);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(varName, value, reached);
     }
 }

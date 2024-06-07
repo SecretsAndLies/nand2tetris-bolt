@@ -380,6 +380,7 @@ public class HackController
     // Executes a single step from the script, checks for a breakpoint and
     // sets the status of the system accordingly.
     private synchronized void singleStep() {
+
         singleStepLocked = true;
 
         try {
@@ -417,9 +418,14 @@ public class HackController
                     gui.setBreakpoints(breakpoints);
                 }
             }
-        } catch (ControllerException | CommandException | ProgramException |
-                 VariableException ce) {
+        } catch (ControllerException ce) {
             stopWithError(ce);
+        } catch (ProgramException pe) {
+            stopWithError(pe);
+        } catch (CommandException ce) {
+            stopWithError(ce);
+        } catch (VariableException ve) {
+            stopWithError(ve);
         }
 
         singleStepLocked = false;
@@ -764,7 +770,6 @@ public class HackController
     private void setSpeed(int newSpeedUnit) {
         currentSpeedUnit = newSpeedUnit;
         timer.setDelay(delays[currentSpeedUnit - 1]);
-        System.out.println(delays[currentSpeedUnit - 1]);
         simulator.setAnimationSpeed(newSpeedUnit);
     }
 
@@ -1111,6 +1116,7 @@ public class HackController
                         wait(1);
                     } catch (InterruptedException ie) {}
                 }
+
                 count++;
             }
         }
