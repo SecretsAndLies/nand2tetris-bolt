@@ -67,8 +67,7 @@ public class KeyboardComponent extends JPanel implements KeyboardGUI {
     private void jbInit() {
         keyNameText.setBounds(new Rectangle(258, 0, 258, 27));
         keyNameText.setEnabled(false);
-        keyNameText.setFont(new Font("Times New Roman", 1, 14));
-        keyNameText.setDisabledTextColor(Color.black);
+        keyNameText.setFont(new Font("Helvetica", Font.BOLD, 14));        keyNameText.setDisabledTextColor(Color.black);
         keyNameText.setEditable(false);
         keyNameText.setHorizontalAlignment(SwingConstants.CENTER);
         keyNameText.setBackground(SystemColor.info);
