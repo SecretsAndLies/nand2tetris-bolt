@@ -24,5 +24,9 @@
             <groupId>org.nand2tetris</groupId>
             <artifactId>CompilersPackage</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.nand2tetris</groupId>
+            <artifactId>HackGUIPackage</artifactId>
+        </dependency>
     </dependencies>
 </project>

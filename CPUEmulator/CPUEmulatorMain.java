@@ -41,8 +41,8 @@ public class CPUEmulatorMain
             CPUEmulatorGUI simulatorGUI = new CPUEmulatorComponent();
             ControllerGUI controllerGUI = new ControllerComponent();
             // this is a hacky implementation that breaks their encapsulation.
-            controllerGUI.getBreakpointWindow().addBreakpointListener(simulatorGUI.getROM().getBreakpointsChangedListener());
-            simulatorGUI.getROM().setBreakpointVariablesWindow(controllerGUI.getBreakpointWindow().getVariables());
+//            controllerGUI.getBreakpointWindow().addBreakpointListener(simulatorGUI.getROM().getBreakpointsChangedListener());
+//            simulatorGUI.getROM().setBreakpointVariablesWindow(controllerGUI.getBreakpointWindow().getVariables());
             CPUEmulatorApplication application =
                 new CPUEmulatorApplication(controllerGUI, simulatorGUI, "bin/scripts/defaultCPU.txt",
                                            "bin/help/cpuUsage.html", "bin/help/cpuAbout.html");

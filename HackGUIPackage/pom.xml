@@ -13,7 +13,6 @@
 
     <name>Hack GUI package</name>
     <url>http://nand2tetris.org</url>
-
     <dependencies>
         <dependency>
             <groupId>org.nand2tetris</groupId>
