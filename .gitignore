@@ -1,6 +1,8 @@
 .idea
 .DS_Store
 *.class
-target
 libs
 bin/CPU Emulator.dat
+*/target
+*/dependency-reduced-pom.xml
+**/*.iml
