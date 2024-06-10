@@ -9,19 +9,11 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class EmulatorTests {
-    public boolean screenIs(CPUEmulator cpuEmulator, String value) throws VariableException {
-        for (int i = 16384; i < 24576; i++) {
-            if(!cpuEmulator.getValue("RAM["+i+"]").equals(value)){
-                return false;
-            }
-        }
-        return true;
-    }
+
 
     public void runCycles(CPUEmulator cpuEmulator, int numCycles) throws VariableException, CommandException, ProgramException {
         for (int i = 0; i < numCycles; i++) {
@@ -76,24 +68,48 @@ public class EmulatorTests {
         assertNotEquals("7",cpuEmulator.getValue("RAM[25]"));
     }
 
+
+    public boolean screenIs(CPUEmulator cpuEmulator, String value) throws VariableException {
+        for (int i = 16384; i < 24576; i++) {
+            if(!cpuEmulator.getValue("RAM["+i+"]").equals(value)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Test
+    public void testSimpleScreen() throws VariableException, CommandException,
+            ProgramException {
+        CPUEmulator cpuEmulator = new CPUEmulator();
+        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+        cpuEmulator.doCommand("load src/test/java/edu/uob/SimpleScreen.hack".split(" "));
+        assertEquals("0", cpuEmulator.getValue("RAM[16384]"));
+        runCycles(cpuEmulator,2);
+        assertEquals("-1", cpuEmulator.getValue("RAM[16384]"));
+    }
+
     @Test
     public void testKBDAndScreen() throws VariableException, CommandException, ProgramException {
         CPUEmulator cpuEmulator = new CPUEmulator();
         cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
         cpuEmulator.doCommand("load src/test/java/edu/uob/Fill.hack".split(" "));
-        // if any key is pressed, screen is black (-1). Otherwise screen is white (0)
-        runCycles(cpuEmulator,1000);
+        // if a key is pressed, screen is black (-1). Otherwise, screen is white (0)
+        runCycles(cpuEmulator,1000000);
         // check screen white
-        screenIs(cpuEmulator,"0");
+        assertTrue(screenIs(cpuEmulator,"0"));
         // simulate pressing a key
         cpuEmulator.doCommand("set RAM[24576] 96".split(" "));
-        runCycles(cpuEmulator,1000);
+        assertEquals("96", cpuEmulator.getValue("RAM[24576]"));
+        runCycles(cpuEmulator,1000000);
+        // check key is still being pressed
+        assertEquals("96", cpuEmulator.getValue("RAM[24576]"));
+        // check screen black
+        assertTrue(screenIs(cpuEmulator,"-1"));
         // stop pressing key
         cpuEmulator.doCommand("set RAM[24576] 0".split(" "));
-        // check screen black
-        screenIs(cpuEmulator,"-1");
-        runCycles(cpuEmulator,1000);
+        runCycles(cpuEmulator,1000000);
         // check screen white again
-        screenIs(cpuEmulator,"0");
+        assertTrue(screenIs(cpuEmulator,"0"));
     }
 }
