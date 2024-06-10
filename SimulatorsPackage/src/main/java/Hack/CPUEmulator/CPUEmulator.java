@@ -165,7 +165,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         else if (varName.equals(VAR_TIME))
             return String.valueOf(cpu.getTime());
         else if (varName.startsWith(VAR_RAM + "[")) {
-            short index = getRamIndex(varName);
+                short index = getRamIndex(varName);
             return String.valueOf(cpu.getRAM().getValueAt(index));
         }
         else if (varName.startsWith(VAR_ROM + "[")) {

@@ -24,6 +24,18 @@
       <groupId>org.nand2tetris</groupId>
       <artifactId>CompilersPackage</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-suite</artifactId>
+      <version>1.8.2</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
 </project>
