@@ -28,6 +28,7 @@ public class EmulatorTests {
             cpuEmulator.doCommand("ticktock".split(" "));
         }
     }
+
     @Test
     public void testMult() throws VariableException, CommandException, ProgramException {
         CPUEmulator cpuEmulator = new CPUEmulator();
@@ -39,9 +40,7 @@ public class EmulatorTests {
         assertEquals("4",cpuEmulator.getValue("RAM[1]"));
         cpuEmulator.doCommand("load src/test/java/edu/uob/Mult.hack".split(" "));
         // ideally this would be more like while current instruction is not END.
-        for (int i = 0; i < 100; i++) {
-            cpuEmulator.doCommand("ticktock".split(" "));
-        }
+        runCycles(cpuEmulator,100);
 
         assertEquals("20",cpuEmulator.getValue("RAM[2]"));
     }
@@ -51,9 +50,7 @@ public class EmulatorTests {
         CPUEmulator cpuEmulator = new CPUEmulator();
         cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
         cpuEmulator.doCommand("load src/test/java/edu/uob/kbd.hack".split(" "));
-        for (int i = 0; i < 100; i++) {
-            cpuEmulator.doCommand("ticktock".split(" "));
-        }
+        runCycles(cpuEmulator,100);
         assertNotEquals("7",cpuEmulator.getValue("RAM[25]"));
     }
 
@@ -64,9 +61,7 @@ public class EmulatorTests {
         // set the keyboard bit of the ram to 97
         cpuEmulator.doCommand("set RAM[24576] 97".split(" "));
         cpuEmulator.doCommand("load src/test/java/edu/uob/kbd.hack".split(" "));
-        for (int i = 0; i < 100; i++) {
-            cpuEmulator.doCommand("ticktock".split(" "));
-        }
+        runCycles(cpuEmulator,100);
         assertEquals("7",cpuEmulator.getValue("RAM[25]"));
     }
 
@@ -77,13 +72,9 @@ public class EmulatorTests {
         // set the keyboard bit of the ram to 96
         cpuEmulator.doCommand("set RAM[24576] 96".split(" "));
         cpuEmulator.doCommand("load src/test/java/edu/uob/kbd.hack".split(" "));
-        for (int i = 0; i < 100; i++) {
-            cpuEmulator.doCommand("ticktock".split(" "));
-        }
+        runCycles(cpuEmulator,100);
         assertNotEquals("7",cpuEmulator.getValue("RAM[25]"));
     }
-    
-
 
     @Test
     public void testKBDAndScreen() throws VariableException, CommandException, ProgramException {
