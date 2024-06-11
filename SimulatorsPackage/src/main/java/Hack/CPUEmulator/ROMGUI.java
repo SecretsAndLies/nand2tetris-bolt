@@ -18,6 +18,7 @@
 package Hack.CPUEmulator;
 
 import Hack.ComputerParts.*;
+import Hack.Controller.BreakpointsChangedListener;
 import Hack.Events.*;
 
 /**
@@ -60,4 +61,6 @@ public interface ROMGUI extends PointedMemoryGUI {
      * Hides the displayed message.
      */
     public void hideMessage();
+
+    public BreakpointsChangedListener getBreakpointsChangedListener();
 }

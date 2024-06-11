@@ -15,34 +15,17 @@
  * mark your changes clearly, for the benefit of others.                        *
  ********************************************************************************/
 
-package HackGUI;
-
-import java.util.EventObject;
-import java.util.Vector;
+package Hack.Controller;
 
 /**
- * An event for notifying a BreakpointsChangedListener on a change in one of the
- * breakpoints.
+ * An interface for objects that want to listen to the BreakpointChangedEvent.
  */
-public class BreakpointsChangedEvent extends EventObject {
-
-    // The vector of breakpoints
-    private Vector breakpoints = new Vector();
+public interface BreakpointsChangedListener {
 
     /**
-     * Constructs a new BreakpointsChangedEvent with the given source and vector of breakpoints.
+     * Called when there was a change in the breakpoints vector.
+     * The event contains the vector of breakpoints.
      */
-    public BreakpointsChangedEvent(Object source, Vector breakpoints) {
+    public void breakpointsChanged(BreakpointsChangedEvent event);
 
-        super(source);
-        this.breakpoints = (Vector)breakpoints.clone();
-    }
-
-    /**
-     * Returns the breakpoints vector
-     */
-    public Vector getBreakpoints() {
-        return breakpoints;
-    }
 }
-

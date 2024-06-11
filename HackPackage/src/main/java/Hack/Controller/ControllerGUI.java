@@ -43,6 +43,8 @@ public interface ControllerGUI {
      */
     public void notifyControllerListeners(byte action, Object data);
 
+    public BreakpointWindowGUI getBreakpointWindow();
+
     /**
      * Sets the simulator component
      */

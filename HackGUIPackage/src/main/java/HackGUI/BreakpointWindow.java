@@ -18,6 +18,10 @@
 package HackGUI;
 
 import Hack.Controller.Breakpoint;
+import Hack.Controller.BreakpointWindowGUI;
+import Hack.Controller.BreakpointsChangedEvent;
+import Hack.Controller.BreakpointsChangedListener;
+
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -27,7 +31,7 @@ import java.awt.event.*;
 /**
  * This class represents the gui of a breakpoint panel.
  */
-public class BreakpointWindow extends JFrame implements MouseListener, BreakpointChangedListener {
+public class BreakpointWindow extends JFrame implements MouseListener, BreakpointChangedListener, BreakpointWindowGUI {
 
     // The table of breakpoints.
     private JTable breakpointTable;

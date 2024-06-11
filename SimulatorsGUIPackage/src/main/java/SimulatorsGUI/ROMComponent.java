@@ -17,11 +17,15 @@
 
 package SimulatorsGUI;
 
+import Hack.Controller.Breakpoint;
+import Hack.Controller.BreakpointsChangedEvent;
+import Hack.Controller.BreakpointsChangedListener;
 import HackGUI.*;
 import Hack.CPUEmulator.*;
 import Hack.Events.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.awt.event.*;
 import java.awt.*;
@@ -29,6 +33,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.*;
 import java.io.*;
 import Hack.Assembler.*;
+
 
 /**
  * This class represents the GUI of a ROM.
@@ -67,6 +72,7 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
 
     // The name of the current program.
     private String programFileName;
+    private ArrayList<Integer> breakpointRows = new ArrayList<>();
 
     /**
      * Constructs a new ROMComponent.
@@ -97,6 +103,28 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
                 romFormat.setSelectedIndex(3);
                 break;
         }
+    }
+
+    // The listener for changes in breakpoints.
+    private BreakpointsChangedListener breakpointsChangedListener= new BreakpointsChangedListener() {
+        @Override
+        public void breakpointsChanged(BreakpointsChangedEvent event) {
+            breakpointRows = new ArrayList<>();
+            for (int i=0; i<event.getBreakpoints().size(); i++){
+                Breakpoint breakpoint = (Breakpoint) event.getBreakpoints().get(i);
+                if(breakpoint.getVarName().equals("PC")){ // todo: magic variable name
+                    // in theory this should also work with ROM, but that's buggy atm.
+                    breakpointRows.add(Integer.valueOf(breakpoint.getValue()));
+                }
+            }
+            repaint();
+            revalidate();
+        }
+
+    };
+
+    public BreakpointsChangedListener getBreakpointsChangedListener() {
+        return breakpointsChangedListener;
     }
 
     /**
@@ -293,7 +321,9 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
 
         public void setRenderer(int row, int column) {
             super.setRenderer(row, column);
-
+            if(breakpointRows.contains(row)) {
+                setBackground(new Color(255, 102, 102));
+            }
             if(dataFormat==ASM_FORMAT && column == 1)
                 setHorizontalAlignment(SwingConstants.LEFT);
         }

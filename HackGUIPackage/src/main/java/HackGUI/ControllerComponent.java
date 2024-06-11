@@ -208,6 +208,11 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
             ((ControllerEventListener)listeners.elementAt(i)).actionPerformed(event);
     }
 
+    @Override
+    public BreakpointWindowGUI getBreakpointWindow() {
+        return breakpointWindow;
+    }
+
     /**
      * Sets the script file name with the given one.
      */
