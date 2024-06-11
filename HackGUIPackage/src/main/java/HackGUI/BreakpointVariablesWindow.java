@@ -18,6 +18,9 @@
 package HackGUI;
 
 import Hack.Controller.Breakpoint;
+import Hack.Controller.BreakpointChangedEvent;
+import Hack.Controller.BreakpointChangedListener;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -67,6 +70,12 @@ public class BreakpointVariablesWindow extends JFrame {
      */
     public void addListener (BreakpointChangedListener listener) {
         listeners.addElement(listener);
+    }
+
+
+    public void addBreakpoint(String name, String value){
+        breakpoint = new Breakpoint(name,value);
+        notifyListeners();
     }
 
     /**

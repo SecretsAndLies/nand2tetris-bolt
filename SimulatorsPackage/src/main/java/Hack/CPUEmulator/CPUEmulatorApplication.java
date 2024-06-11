@@ -35,5 +35,6 @@ public class CPUEmulatorApplication extends HackApplication {
         super(new CPUEmulator(simulatorComponent), controllerComponent, simulatorComponent,
               defaultScript, contentsFileName, aboutFileName);
         controllerComponent.getBreakpointWindow().addBreakpointListener(simulatorComponent.getROM().getBreakpointsChangedListener());
+        simulatorComponent.getROM().addBreakpointChangedListener(controllerComponent.getBreakpointWindow().getBreakpointChangedListener());
     }
 }

@@ -408,7 +408,6 @@ public class HackController
                         breakpoint.on();
                         gui.setBreakpoints(breakpoints);
                         displayMessage("Breakpoint reached", false);
-                        gui.showBreakpoints();
                         stopMode();
                     }
                 }

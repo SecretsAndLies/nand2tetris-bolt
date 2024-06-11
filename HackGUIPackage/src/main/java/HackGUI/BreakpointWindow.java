@@ -17,10 +17,7 @@
 
 package HackGUI;
 
-import Hack.Controller.Breakpoint;
-import Hack.Controller.BreakpointWindowGUI;
-import Hack.Controller.BreakpointsChangedEvent;
-import Hack.Controller.BreakpointsChangedListener;
+import Hack.Controller.*;
 
 import javax.swing.*;
 import javax.swing.table.*;
@@ -67,6 +64,7 @@ public class BreakpointWindow extends JFrame implements MouseListener, Breakpoin
     // The selected row in the breakpoint table.
     private int selectedRowIndex = -1;
 
+
     /**
      * Constructs a new BreakpointWindow.
      */
@@ -104,6 +102,11 @@ public class BreakpointWindow extends JFrame implements MouseListener, Breakpoin
         listeners.addElement(listener);
     }
 
+    @Override
+    public BreakpointChangedListener getBreakpointChangedListener() {
+        return this;
+    }
+
     /**
      * Un-registers the given BreakpointChangedListener from being a listener to this component.
      */
@@ -123,6 +126,8 @@ public class BreakpointWindow extends JFrame implements MouseListener, Breakpoin
         }
     }
 
+
+
     /**
      * Returns the breakpoints table.
      */
@@ -136,7 +141,10 @@ public class BreakpointWindow extends JFrame implements MouseListener, Breakpoin
      */
     public void breakpointChanged(BreakpointChangedEvent event) {
         Breakpoint p = event.getBreakpoint();
-        if(selectedRowIndex == -1)
+        if(breakpoints.contains(p)){
+            breakpoints.remove(p);
+        }
+        else if(selectedRowIndex == -1)
             breakpoints.addElement(p);
         else
             breakpoints.setElementAt(p,selectedRowIndex);
