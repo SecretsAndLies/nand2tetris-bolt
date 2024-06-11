@@ -91,17 +91,17 @@ public class EmulatorTests {
         cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
         cpuEmulator.doCommand("load src/test/java/edu/uob/Fill.hack".split(" "));
         // if any key is pressed, screen is black (-1). Otherwise screen is white (0)
-        runCycles(cpuEmulator,1000);
+        runCycles(cpuEmulator,100000);
         // check screen white
         screenIs(cpuEmulator,"0");
         // simulate pressing a key
         cpuEmulator.doCommand("set RAM[24576] 96".split(" "));
-        runCycles(cpuEmulator,1000);
+        runCycles(cpuEmulator,100000);
         // stop pressing key
         cpuEmulator.doCommand("set RAM[24576] 0".split(" "));
         // check screen black
         screenIs(cpuEmulator,"-1");
-        runCycles(cpuEmulator,1000);
+        runCycles(cpuEmulator,100000);
         // check screen white again
         screenIs(cpuEmulator,"0");
     }
