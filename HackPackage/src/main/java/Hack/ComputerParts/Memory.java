@@ -41,6 +41,12 @@ public class Memory extends InteractiveValueComputerPart implements ClearEventLi
         init(size, gui);
     }
 
+    public Memory deepCopy(){
+        Memory copy = new Memory(size,gui);
+        copy.setContents(mem,0);
+        return copy;
+    }
+
     /**
      * Constructs a new Memory with the given size, a memory GUI and the
      * legal values range.

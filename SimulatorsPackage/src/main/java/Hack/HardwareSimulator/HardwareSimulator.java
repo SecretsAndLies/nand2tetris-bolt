@@ -396,6 +396,11 @@ public class HardwareSimulator extends HackSimulator
         }
     }
 
+    @Override
+    public void stepBack() {
+        // not implemented
+    }
+
     public void setWorkingDir(File file) {
         super.setWorkingDir(file);
         GatesManager.getInstance().setWorkingDir(file.getParentFile());

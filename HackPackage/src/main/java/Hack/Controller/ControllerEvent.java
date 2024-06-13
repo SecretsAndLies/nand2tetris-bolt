@@ -176,6 +176,12 @@ public class ControllerEvent extends EventObject {
      */
     public static final byte LOAD_PROGRAM = 27;
 
+    /**
+     * Action code for requesting to load a new program.
+     * supplied data = null
+     */
+    public static final byte STEP_BACKWARDS = 29;
+
     // the action code
     private byte action;
 

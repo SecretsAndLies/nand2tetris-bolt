@@ -56,6 +56,9 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
     // The simulating cpu
     private CPU cpu;
 
+    // The CPU from the previuos step.
+    private CPU oldCPU;
+
     // The GUI of the CPUEmulator
     private CPUEmulatorGUI gui;
 
@@ -97,7 +100,6 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         bus.reset();
 
         cpu = new CPU(ram, rom, A, D, PC, alu, bus);
-
         init();
     }
 
@@ -241,7 +243,8 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         if (command[0].equals(COMMAND_TICKTOCK)) {
             if (command.length != 1)
                 throw new CommandException("Illegal number of arguments to command", command);
-
+            // todo: you need to deeply copy the CPU
+            oldCPU=cpu.deepCopy();
             cpu.executeInstruction();
         }
         else if (command[0].equals(COMMAND_SETVAR)) {
@@ -258,6 +261,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
             int oldAnimationMode = animationMode;
             setAnimationMode(HackController.DISPLAY_CHANGES);
             cpu.initProgram();
+            oldCPU.initProgram();
             setAnimationMode(oldAnimationMode);
         }
         else
@@ -279,6 +283,12 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
      */
     public void restart() {
         cpu.initProgram();
+        oldCPU.initProgram();
+    }
+
+    public void stepBack(){
+        cpu=oldCPU;
+        oldCPU=null;
     }
 
     public void setAnimationMode(int newAnimationMode) {
@@ -397,6 +407,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
             refresh();
             notifyListeners(ControllerEvent.ENABLE_MOVEMENT, null);
             cpu.initProgram();
+            oldCPU.initProgram();
 
             setAnimationMode(oldAnimationMode);
         }

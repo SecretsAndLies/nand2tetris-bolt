@@ -48,6 +48,10 @@ public class PointerAddressRegisterAdapter extends Register {
             memory.setPointerAddress(value);
     }
 
+
+    public PointerAddressRegisterAdapter deepCopy(){
+        return new PointerAddressRegisterAdapter(gui, (PointedMemory) memory.deepCopy());
+    }
     /**
      * Called when the value of a register is changed.
      */

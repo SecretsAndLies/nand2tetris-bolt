@@ -47,6 +47,12 @@ public class Register extends InteractiveValueComputerPart implements ComputerPa
         init(gui);
     }
 
+    public Register deepCopy(){
+        Register copy = new Register(gui);
+        copy.value=this.value;
+        return copy;
+    }
+
     // Initalizes the register
     private void init(RegisterGUI gui) {
         this.gui = gui;

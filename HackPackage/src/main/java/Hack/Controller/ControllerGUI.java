@@ -171,6 +171,10 @@ public interface ControllerGUI {
      */
     public void disableFastForward();
 
+    public void enableStepBack();
+
+    public void disableStepBack();
+
     /**
      * Enables the stop action.
      */

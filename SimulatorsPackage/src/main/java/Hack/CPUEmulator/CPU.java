@@ -72,6 +72,11 @@ public class CPU
         assemblerTranslator = HackAssemblerTranslator.getInstance();
     }
 
+    public CPU deepCopy(){
+        // todo: this is broken at the moment.
+        return new CPU(M.deepCopy(), rom.deepCopy(),A.deepCopy(), D.deepCopy(), PC.deepCopy(), alu, bus);
+    }
+
     /**
      * Returns the bus.
      */

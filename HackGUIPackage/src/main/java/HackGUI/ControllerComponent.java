@@ -64,6 +64,9 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     // The single step button.
     protected MouseOverJButton singleStepButton;
 
+    // The step back button
+    protected MouseOverJButton stepBackButton;
+
     // The load program button.
     protected MouseOverJButton loadProgramButton;
 
@@ -75,6 +78,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     private ImageIcon rewindIcon = new ImageIcon(Utilities.imagesDir + "vcrrewind.gif");
     private ImageIcon ffwdIcon = new ImageIcon(Utilities.imagesDir + "vcrfastforward.gif");
     private ImageIcon singleStepIcon = new ImageIcon(Utilities.imagesDir + "vcrforward.gif");
+    private ImageIcon stepBackIcon = new ImageIcon(Utilities.imagesDir + "stepback.gif");
     private ImageIcon stopIcon = new ImageIcon(Utilities.imagesDir + "vcrstop.gif");
     private ImageIcon breakIcon = new ImageIcon(Utilities.imagesDir + "redflag.gif");
     private ImageIcon loadProgramIcon = new ImageIcon(Utilities.imagesDir + "opendoc.gif");
@@ -98,7 +102,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     // The components of the menu
     protected JMenuBar menuBar;
     protected JMenu fileMenu, viewMenu, runMenu, helpMenu;
-    protected JMenuItem singleStepMenuItem, ffwdMenuItem, stopMenuItem, rewindMenuItem, exitMenuItem;
+    protected JMenuItem singleStepMenuItem, stepBackMenuItem, ffwdMenuItem, stopMenuItem, rewindMenuItem, exitMenuItem;
     protected JMenuItem usageMenuItem, aboutMenuItem;
     protected JMenu animationSubMenu, numericFormatSubMenu, additionalDisplaySubMenu;
     protected JMenuItem breakpointsMenuItem, scriptMenuItem, programMenuItem;
@@ -180,6 +184,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         scriptButton = new MouseOverJButton();
         breakButton = new MouseOverJButton();
         singleStepButton = new MouseOverJButton();
+        stepBackButton=new MouseOverJButton();
     }
 
 
@@ -264,6 +269,17 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         breakpointWindow.setVisible(true);
         if (breakpointWindow.getState() == Frame.ICONIFIED)
             breakpointWindow.setState(Frame.NORMAL);
+    }
+
+
+    public void enableStepBack() {
+        stepBackButton.setEnabled(true);
+        stepBackMenuItem.setEnabled(true);
+    }
+
+    public void disableStepBack() {
+        stepBackButton.setEnabled(false);
+        stepBackMenuItem.setEnabled(false);
     }
 
     /**
@@ -513,6 +529,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         toolBar.add(ffwdButton);
         toolBar.add(stopButton);
         toolBar.add(rewindButton);
+        toolBar.add(stepBackButton);
         toolBar.addSeparator(separatorDimension);
         toolBar.add(scriptButton);
         toolBar.add(breakButton);
@@ -699,7 +716,7 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
 
         viewMenu.addSeparator();
 
-        singleStepMenuItem = new JMenuItem("Single Step", KeyEvent.VK_S);
+        singleStepMenuItem = new JMenuItem("Step Forward", KeyEvent.VK_S);
         singleStepMenuItem.setAccelerator(KeyStroke.getKeyStroke("F11"));
         singleStepMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -707,6 +724,16 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
             }
         });
         runMenu.add(singleStepMenuItem);
+
+        stepBackMenuItem = new JMenuItem("Step Back", KeyEvent.VK_X);
+        stepBackMenuItem.setAccelerator(KeyStroke.getKeyStroke("F12"));
+        stepBackMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                stepBackMenuItem_actionPerformed(e);
+            }
+        });
+        runMenu.add(stepBackMenuItem);
+
 
         ffwdMenuItem = new JMenuItem("Run", KeyEvent.VK_F);
         ffwdMenuItem.setAccelerator(KeyStroke.getKeyStroke("F5"));
@@ -882,6 +909,19 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         singleStepButton.setToolTipText("Single Step");
         singleStepButton.setIcon(singleStepIcon);
 
+        stepBackButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                stepBackButton_actionPerformed(e);
+            }
+        });
+        stepBackButton.setMaximumSize(new Dimension(39, 39));
+        stepBackButton.setMinimumSize(new Dimension(39, 39));
+        stepBackButton.setPreferredSize(new Dimension(39, 39));
+        stepBackButton.setSize(new Dimension(39, 39));
+        stepBackButton.setToolTipText("Step Backwards");
+        stepBackButton.setIcon(stepBackIcon);
+
+
         animationCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 animationCombo_actionPerformed(e);
@@ -1002,6 +1042,14 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     public void singleStepButton_actionPerformed(ActionEvent e) {
         notifyControllerListeners(ControllerEvent.SINGLE_STEP, null);
     }
+
+    /**
+     * Called when the step back button was pressed.
+     */
+    public void stepBackButton_actionPerformed(ActionEvent e) {
+        notifyControllerListeners(ControllerEvent.STEP_BACKWARDS, null);
+    }
+
 
     /**
      * Called when the stop button was pressed.
@@ -1171,6 +1219,14 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
         if (!additionalDisplayCombo.isSelectedIndex(HackController.NO_ADDITIONAL_DISPLAY))
             additionalDisplayCombo.setSelectedIndex(HackController.NO_ADDITIONAL_DISPLAY);
     }
+
+    /**
+     * Called when the single step menu item was selected.
+     */
+    public void stepBackMenuItem_actionPerformed(ActionEvent e) {
+        notifyControllerListeners(ControllerEvent.STEP_BACKWARDS, null);
+    }
+
 
     /**
      * Called when the single step menu item was selected.
