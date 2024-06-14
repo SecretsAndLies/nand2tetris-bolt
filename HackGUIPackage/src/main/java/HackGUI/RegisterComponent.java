@@ -27,7 +27,7 @@ import java.util.Vector;
 /**
  * This class represents the GUI of a register.
  */
-public class RegisterComponent extends JPanel implements RegisterGUI {
+public class RegisterComponent extends JPanel implements RegisterGUI, Cloneable {
 
     // The label with the name of this register.
     protected JLabel registerName = new JLabel();
@@ -308,5 +308,22 @@ public class RegisterComponent extends JPanel implements RegisterGUI {
      */
     public void registerValue_actionPerformed(ActionEvent e) {
         valueChanged();
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        RegisterComponent clone = (RegisterComponent) super.clone();
+        clone.registerName=new JLabel(); // clone may be needed
+        clone.registerValue=new JTextField();
+        clone.jbInit();
+        clone.registerName.setText(registerName.getText());
+        clone.registerValue.setText(registerValue.getText());
+        clone.listeners=listeners;
+        clone.errorEventListeners=errorEventListeners;
+        clone.oldValue=oldValue;
+        clone.dataFormat=dataFormat;
+        clone.nullValue=nullValue;
+        clone.hideNullValue=hideNullValue;
+        return clone;
     }
 }

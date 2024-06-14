@@ -20,7 +20,7 @@ package Hack.ComputerParts;
 /**
  * Represents a part of a computer.
  */
-public abstract class ComputerPart {
+public abstract class ComputerPart implements Cloneable {
 
     // If true, changes to the computer part's values will be displayed in its gui.
     protected boolean displayChanges = true;
@@ -39,6 +39,12 @@ public abstract class ComputerPart {
         this.hasGUI = hasGUI;
         displayChanges = hasGUI;
         animate = false;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        ComputerPart cloned = (ComputerPart) super.clone();
+        return cloned;
     }
 
     /**

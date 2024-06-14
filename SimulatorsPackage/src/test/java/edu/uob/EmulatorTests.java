@@ -38,8 +38,16 @@ public class EmulatorTests {
         cpuEmulator.doCommand("set RAM[1] 4".split(" "));
         assertEquals("4",cpuEmulator.getValue("RAM[1]"));
         cpuEmulator.doCommand("load src/test/java/edu/uob/Mult.hack".split(" "));
-        cpuEmulator.stepBack();
         runCycles(cpuEmulator,1);
+        assertEquals("1",cpuEmulator.getValue("A"));
+        assertEquals("1",cpuEmulator.getValue("PC"));
+        runCycles(cpuEmulator,1);
+        assertEquals("4",cpuEmulator.getValue("RAM[1]"));
+        assertEquals("5",cpuEmulator.getValue("RAM[0]"));
+        assertEquals("4",cpuEmulator.getValue("D"));
+        assertEquals("2",cpuEmulator.getValue("PC"));
+        cpuEmulator.stepBack();
+        assertEquals("1",cpuEmulator.getValue("PC"));
     }
 
     @Test

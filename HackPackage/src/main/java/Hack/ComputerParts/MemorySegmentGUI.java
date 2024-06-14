@@ -49,8 +49,6 @@ public interface MemorySegmentGUI extends InteractiveValueComputerPartGUI {
      */
     public void setStartAddress(int startAddress);
 
-    public MemorySegmentGUI deepCopy();
-
     /**
      * Hides all selections.
      */

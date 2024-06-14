@@ -45,8 +45,6 @@ public interface ScreenGUI extends ComputerPartGUI {
      */
     public void startAnimation();
 
-    public ScreenGUI deepCopy();
-
     /**
      * Stops animating the screen display
      */

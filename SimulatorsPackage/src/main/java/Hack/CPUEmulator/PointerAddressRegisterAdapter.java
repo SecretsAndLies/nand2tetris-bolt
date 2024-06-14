@@ -24,7 +24,7 @@ import Hack.ComputerParts.*;
  * Whenever the register's value changes, the PointedMemory's address pointer
  * changes accordingly.
  */
-public class PointerAddressRegisterAdapter extends Register {
+public class PointerAddressRegisterAdapter extends Register implements Cloneable{
 
     // The pointed memory.
     protected PointedMemory memory;
@@ -48,10 +48,14 @@ public class PointerAddressRegisterAdapter extends Register {
             memory.setPointerAddress(value);
     }
 
-
-    public PointerAddressRegisterAdapter deepCopy(){
-        return new PointerAddressRegisterAdapter(gui, (PointedMemory) memory.deepCopy());
+    @Override
+    protected PointerAddressRegisterAdapter clone() throws CloneNotSupportedException {
+        PointerAddressRegisterAdapter clone = (PointerAddressRegisterAdapter) super.clone();
+        clone.updatePointer=updatePointer;
+        clone.memory=memory.clone();
+        return clone;
     }
+
     /**
      * Called when the value of a register is changed.
      */

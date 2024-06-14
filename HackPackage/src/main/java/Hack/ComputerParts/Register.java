@@ -22,7 +22,7 @@ import java.util.EventObject;
 /**
  * A computer register. Holds a 16-bit value.
  */
-public class Register extends InteractiveValueComputerPart implements ComputerPartEventListener {
+public class Register extends InteractiveValueComputerPart implements ComputerPartEventListener, Cloneable {
 
     // The 16-bit value.
     protected short value;
@@ -47,10 +47,15 @@ public class Register extends InteractiveValueComputerPart implements ComputerPa
         init(gui);
     }
 
-    public Register deepCopy(){
-        Register copy = new Register(gui);
-        copy.value=this.value;
-        return copy;
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Register clone = (Register) super.clone();
+        clone.value=this.value;
+        if(gui!=null) {
+            clone.gui = (RegisterGUI) gui.clone();
+        }
+        return clone;
     }
 
     // Initalizes the register

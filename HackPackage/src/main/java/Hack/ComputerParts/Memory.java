@@ -22,7 +22,7 @@ import Hack.Events.*;
 /**
  * A computer memory.
  */
-public class Memory extends InteractiveValueComputerPart implements ClearEventListener {
+public class Memory extends InteractiveValueComputerPart implements ClearEventListener, Cloneable {
 
     // The size of the memory
     protected int size;
@@ -41,10 +41,12 @@ public class Memory extends InteractiveValueComputerPart implements ClearEventLi
         init(size, gui);
     }
 
-    public Memory deepCopy(){
-        Memory copy = new Memory(size,gui);
-        copy.setContents(mem,0);
-        return copy;
+    public Memory clone() throws CloneNotSupportedException {
+        Memory cloned = (Memory) super.clone();
+        cloned.setContents(mem,0);
+        cloned.gui=gui;
+        cloned.size=size;
+        return cloned;
     }
 
     /**

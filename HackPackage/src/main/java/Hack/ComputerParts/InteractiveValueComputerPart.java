@@ -24,7 +24,7 @@ import Hack.Events.*;
  * An interactive computer part that has values which can be get & set.
  */
 public abstract class InteractiveValueComputerPart extends ValueComputerPart
- implements ComputerPartEventListener, ErrorEventListener {
+ implements ComputerPartEventListener, ErrorEventListener, Cloneable {
 
     // Error listeners of hi computer prt
     private Vector errorListeners;
@@ -64,6 +64,19 @@ public abstract class InteractiveValueComputerPart extends ValueComputerPart
         this.minValue = minValue;
         this.maxValue = maxValue;
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        InteractiveValueComputerPart clone = (InteractiveValueComputerPart)super.clone();
+        clone.errorListeners=errorListeners; // These need to be identical so don't need to deep copy.
+        clone.minValue=minValue;
+        clone.maxValue=maxValue;
+        clone.startEnabledRange =startEnabledRange;
+        clone.endEnabledRange=endEnabledRange;
+        clone.grayDisabledRange=grayDisabledRange;
+        return clone;
+    }
+
 
     /**
      * Registers the given ComputerPartErrorEventListener as a listener to this ComputerPart.

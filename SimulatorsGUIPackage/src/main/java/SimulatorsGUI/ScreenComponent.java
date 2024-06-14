@@ -125,11 +125,6 @@ public class ScreenComponent extends JPanel implements ScreenGUI, ActionListener
         timer.setDelay(ANIMATION_CLOCK_INTERVALS);
     }
 
-    @Override
-    public ScreenGUI deepCopy() {
-        return this;
-    }
-
     /**
      * Stops the animation.
      */
