@@ -52,6 +52,10 @@ public class MemorySegment extends InteractiveValueComputerPart {
         init(mainMemory, gui);
     }
 
+    public MemorySegment deepCopy() {
+        return this;
+    }
+
     // Initializes the memory segment
     private void init(Memory mainMemory, MemorySegmentGUI gui) {
         this.mainMemory = mainMemory;

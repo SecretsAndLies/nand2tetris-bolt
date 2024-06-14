@@ -446,7 +446,6 @@ public class HackController
     }
 
     private synchronized void stepBack(){
-        System.out.println("step back");
         if (scriptEnded || programHalted) {
             gui.enableSingleStep();
             gui.enableFastForward();
@@ -459,7 +458,9 @@ public class HackController
         // todo guard logic here to prevent step back when not avail
         currentCommandIndex = currentCommandIndex -1;
         gui.setCurrentScriptLine(script.getLineNumberAt(currentCommandIndex));
-
+        // if at zero, then disable gui.disableStepBack();
+        // may also need to reset last echo if it was showing a message?
+        // you might need to reactivate the breakpoint?
         notifyAll();
     }
 

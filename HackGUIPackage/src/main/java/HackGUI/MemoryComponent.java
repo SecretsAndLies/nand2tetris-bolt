@@ -135,6 +135,10 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
         jbInit();
     }
 
+    public MemoryComponent deepCopy() {
+        return this;
+    }
+
     /**
      * Sets the null value of this component.
      */

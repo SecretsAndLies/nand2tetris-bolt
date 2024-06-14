@@ -30,6 +30,19 @@ public class EmulatorTests {
     }
 
     @Test
+    public void testStepBack() throws VariableException, CommandException, ProgramException {
+        CPUEmulator cpuEmulator = new CPUEmulator();
+        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+        cpuEmulator.doCommand("set RAM[0] 5".split(" "));
+        assertEquals("5",cpuEmulator.getValue("RAM[0]"));
+        cpuEmulator.doCommand("set RAM[1] 4".split(" "));
+        assertEquals("4",cpuEmulator.getValue("RAM[1]"));
+        cpuEmulator.doCommand("load src/test/java/edu/uob/Mult.hack".split(" "));
+        cpuEmulator.stepBack();
+        runCycles(cpuEmulator,1);
+    }
+
+    @Test
     public void testMult() throws VariableException, CommandException, ProgramException {
         CPUEmulator cpuEmulator = new CPUEmulator();
         cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));

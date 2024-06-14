@@ -246,6 +246,11 @@ public class MemorySegmentComponent extends JPanel
         segmentTable.revalidate();
     }
 
+    @Override
+    public MemorySegmentGUI deepCopy() {
+        return this;
+    }
+
     /**
      * Resets the contents of this MemorySegmentComponent.
      */

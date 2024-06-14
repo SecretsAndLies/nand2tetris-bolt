@@ -51,7 +51,7 @@ public class CPU
     // The time that passed since the program started running.
     protected long time;
 
-    // An assembler transltor
+    // An assembler translator
     protected HackAssemblerTranslator assemblerTranslator;
 
     /**
@@ -73,8 +73,8 @@ public class CPU
     }
 
     public CPU deepCopy(){
-        // todo: this is broken at the moment.
-        return new CPU(M.deepCopy(), rom.deepCopy(),A.deepCopy(), D.deepCopy(), PC.deepCopy(), alu, bus);
+        // todo: this is broken at the moment. A and M both break it.
+        return new CPU(M, rom,A, D, PC, alu, bus);
     }
 
     /**

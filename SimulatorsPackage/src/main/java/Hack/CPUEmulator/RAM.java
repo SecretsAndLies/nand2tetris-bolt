@@ -94,7 +94,6 @@ public class RAM extends PointedMemory
     }
 
     public RAM deepCopy(){
-        // todo:
         return this;
     }
 
