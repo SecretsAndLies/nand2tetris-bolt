@@ -455,10 +455,9 @@ public class HackController
 
         simulator.stepBack();
         refreshSimulator();
-        // todo guard logic here to prevent step back when not avail
         currentCommandIndex = currentCommandIndex -1;
         gui.setCurrentScriptLine(script.getLineNumberAt(currentCommandIndex));
-        // if at zero, then disable gui.disableStepBack();
+        gui.disableStepBack();
         // may also need to reset last echo if it was showing a message?
         // you might need to reactivate the breakpoint?
         notifyAll();
