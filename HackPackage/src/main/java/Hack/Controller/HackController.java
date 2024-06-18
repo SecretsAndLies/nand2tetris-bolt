@@ -458,8 +458,11 @@ public class HackController
         currentCommandIndex = currentCommandIndex -1;
         gui.setCurrentScriptLine(script.getLineNumberAt(currentCommandIndex));
         gui.disableStepBack();
-        // may also need to reset last echo if it was showing a message?
-        // you might need to reactivate the breakpoint?
+        try {
+            doClearEchoCommand(null);
+        } catch (ControllerException e) {
+            throw new RuntimeException(e);
+        }
         notifyAll();
     }
 
