@@ -43,7 +43,7 @@ public class Memory extends InteractiveValueComputerPart implements ClearEventLi
 
     public Memory clone() throws CloneNotSupportedException {
         Memory cloned = (Memory) super.clone();
-        cloned.setContents(mem,0);
+        cloned.mem=mem.clone();
         cloned.gui=gui;
         cloned.size=size;
         return cloned;

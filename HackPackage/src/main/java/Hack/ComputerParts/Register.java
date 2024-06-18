@@ -53,9 +53,13 @@ public class Register extends InteractiveValueComputerPart implements ComputerPa
         Register clone = (Register) super.clone();
         clone.value=this.value;
         if(gui!=null) {
-            clone.gui = (RegisterGUI) gui.clone();
+            clone.gui = gui;
         }
         return clone;
+    }
+
+    public Register copy() throws CloneNotSupportedException {
+        return (Register) this.clone();
     }
 
     // Initalizes the register

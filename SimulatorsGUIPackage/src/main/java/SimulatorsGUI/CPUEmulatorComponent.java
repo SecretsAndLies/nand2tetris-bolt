@@ -161,6 +161,7 @@ public class CPUEmulatorComponent extends HackSimulatorComponent implements CPUE
         return pc;
     }
 
+
     // Initialization of this component.
     private void jbInit() {
         this.setLayout(null);

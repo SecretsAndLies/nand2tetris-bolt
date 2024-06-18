@@ -247,8 +247,6 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
                 throw new CommandException("Illegal number of arguments to command", command);
             oldCPU=cpu.clone();
             cpu.executeInstruction();
-            // TODO: sometimes the emulator doesn't update the PC.
-            refresh();
         }
         else if (command[0].equals(COMMAND_SETVAR)) {
             if (command.length != 3)
@@ -291,7 +289,9 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
     public void stepBack(){
         cpu=oldCPU;
         oldCPU=null;
-        refresh();
+        if(gui!=null){
+            refresh();
+        }
     }
 
     public void setAnimationMode(int newAnimationMode) {

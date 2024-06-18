@@ -310,20 +310,4 @@ public class RegisterComponent extends JPanel implements RegisterGUI, Cloneable 
         valueChanged();
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        RegisterComponent clone = (RegisterComponent) super.clone();
-        clone.registerName=new JLabel(); // clone may be needed
-        clone.registerValue=new JTextField();
-        clone.jbInit();
-        clone.registerName.setText(registerName.getText());
-        clone.registerValue.setText(registerValue.getText());
-        clone.listeners=listeners;
-        clone.errorEventListeners=errorEventListeners;
-        clone.oldValue=oldValue;
-        clone.dataFormat=dataFormat;
-        clone.nullValue=nullValue;
-        clone.hideNullValue=hideNullValue;
-        return clone;
-    }
 }

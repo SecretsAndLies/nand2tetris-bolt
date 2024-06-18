@@ -21,5 +21,4 @@ package Hack.ComputerParts;
  * An interface for a computer register GUI. Has a 16-bit numeric value.
  */
 public interface RegisterGUI extends InteractiveValueComputerPartGUI {
-    Object clone() throws CloneNotSupportedException;
 }

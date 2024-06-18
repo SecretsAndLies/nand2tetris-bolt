@@ -23,7 +23,7 @@ package Hack.ComputerParts;
  * of its main memory.
  * The start address can be accessed using the getStartAddress & setStartAddress methods.
  */
-public class MemorySegment extends InteractiveValueComputerPart {
+public class MemorySegment extends InteractiveValueComputerPart implements Cloneable {
 
     // The gui of the memory segment
     protected MemorySegmentGUI gui;
@@ -52,9 +52,6 @@ public class MemorySegment extends InteractiveValueComputerPart {
         init(mainMemory, gui);
     }
 
-    public MemorySegment deepCopy() {
-        return this;
-    }
 
     // Initializes the memory segment
     private void init(Memory mainMemory, MemorySegmentGUI gui) {
@@ -118,5 +115,18 @@ public class MemorySegment extends InteractiveValueComputerPart {
     public void hideSelect() {
         if (displayChanges)
             gui.hideSelect();
+    }
+
+    @Override
+    public MemorySegment clone() {
+        try {
+            MemorySegment clone = (MemorySegment) super.clone();
+            clone.mainMemory=mainMemory.clone();
+            clone.startAddress=startAddress;
+            clone.gui=gui;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

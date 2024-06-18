@@ -74,7 +74,7 @@ public class CPU implements Cloneable
 
     public CPU clone()  {
         try {
-            return new CPU(M, rom,A, D, PC.clone(), alu, bus);
+            return new CPU(M.clone(), rom, A.clone(), D.copy(), PC.clone(), alu, bus);
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
@@ -165,17 +165,20 @@ public class CPU implements Cloneable
         short instruction = rom.getValueAt(PC.get());
         boolean pcChanged = false;
 
-        if ((instruction & 0x8000) == 0)
+        // A instruction
+        if ((instruction & 0x8000) == 0) {
             bus.send(rom, PC.get(), A, 0);
+        }
+        // C instruction
         else if ((instruction & 0xe000) == 0xe000) {
             computeExp(instruction);
             setDestination(instruction);
             pcChanged = checkJump(instruction);
         }
-        else if (instruction != HackAssemblerTranslator.NOP)
+        else if (instruction != HackAssemblerTranslator.NOP) {
             throw new ProgramException("At line " + PC.get() +
-									   ": Illegal instruction");
-
+                    ": Illegal instruction");
+        }
         if (!pcChanged) {
             short newPC = (short)(PC.get() + 1);
             if (newPC < 0 || newPC >= Definitions.ROM_SIZE)

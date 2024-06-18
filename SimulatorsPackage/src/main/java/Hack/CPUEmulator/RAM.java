@@ -23,7 +23,7 @@ import Hack.ComputerParts.*;
 /**
  * A Random Access Memory, which is mapped to a screen, and enables a segmented view on it.
  */
-public class RAM extends PointedMemory
+public class RAM extends PointedMemory implements Cloneable
 {
     // The amount of miliseconds that a label should flash.
     private static final int LABEL_FLASH_TIME = 500;
@@ -93,9 +93,6 @@ public class RAM extends PointedMemory
         }
     }
 
-    public RAM deepCopy(){
-        return this;
-    }
 
     /**
      * Clears all labels.
@@ -140,5 +137,26 @@ public class RAM extends PointedMemory
                     }
                 }
             }
+    }
+
+    @Override
+    public RAM clone() {
+        try {
+            RAM clone = (RAM) super.clone();
+            clone.screen=screen; // I don't think I need to change this as it's a gui.
+            if(segments!=null) {
+                clone.segments = new MemorySegment[segments.length][]; // Create a new array
+                for (int i = 0; i < segments.length; i++) {
+                    clone.segments[i] = new MemorySegment[segments[i].length]; // Initialize sub-array
+                    for (int j = 0; j < segments[i].length; j++) {
+                        clone.segments[i][j] = segments[i][j].clone();
+                    }
+                }
+            }
+
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

@@ -41,13 +41,20 @@ public class EmulatorTests {
         runCycles(cpuEmulator,1);
         assertEquals("1",cpuEmulator.getValue("A"));
         assertEquals("1",cpuEmulator.getValue("PC"));
-        runCycles(cpuEmulator,1);
+        cpuEmulator.stepBack();
+        assertEquals("0",cpuEmulator.getValue("A"));
+        runCycles(cpuEmulator,2);
         assertEquals("4",cpuEmulator.getValue("RAM[1]"));
         assertEquals("5",cpuEmulator.getValue("RAM[0]"));
         assertEquals("4",cpuEmulator.getValue("D"));
         assertEquals("2",cpuEmulator.getValue("PC"));
         cpuEmulator.stepBack();
         assertEquals("1",cpuEmulator.getValue("PC"));
+        assertEquals("0",cpuEmulator.getValue("D"));
+        runCycles(cpuEmulator,3);
+        assertEquals("4",cpuEmulator.getValue("RAM[16]"));
+        cpuEmulator.stepBack();
+        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
     }
 
     @Test

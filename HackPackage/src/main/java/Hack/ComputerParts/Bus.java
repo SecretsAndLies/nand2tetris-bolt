@@ -46,17 +46,12 @@ public class Bus extends ComputerPart {
             gui.setSpeed(speed);
     }
 
-    public Bus deepCopy(){
-        return this;
-    }
-
     /**
      * Sends a value from the the source computer part at location sourceIndex to the
      * target computer part at location targetIndex.
      */
     public synchronized void send(ValueComputerPart sourcePart, int sourceIndex,
                                   ValueComputerPart targetPart, int targetIndex) {
-
         if (animate && sourcePart.animate && hasGUI) {
             try {
                 wait(100);
@@ -66,7 +61,6 @@ public class Bus extends ComputerPart {
                      ((ValueComputerPartGUI)targetPart.getGUI()).getCoordinates(targetIndex),
                      ((ValueComputerPartGUI)sourcePart.getGUI()).getValueAsString(sourceIndex));
         }
-
         targetPart.setValueAt(targetIndex, sourcePart.getValueAt(sourceIndex), false);
     }
 
