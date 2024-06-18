@@ -28,7 +28,7 @@ import Hack.Assembler.*;
  * method for running the program which is currently in them ROM. Also gives
  * read access to the memory.
  */
-public class CPU
+public class CPU implements Cloneable
 {
     // The address and program counter registers.
     protected PointerAddressRegisterAdapter A, PC;
@@ -51,7 +51,7 @@ public class CPU
     // The time that passed since the program started running.
     protected long time;
 
-    // An assembler transltor
+    // An assembler translator
     protected HackAssemblerTranslator assemblerTranslator;
 
     /**
@@ -70,6 +70,14 @@ public class CPU
         A.setUpdatePointer(false);
 
         assemblerTranslator = HackAssemblerTranslator.getInstance();
+    }
+
+    public CPU clone()  {
+        try {
+            return new CPU(M, rom,A, D, PC.clone(), alu, bus);
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

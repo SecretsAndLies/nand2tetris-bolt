@@ -473,6 +473,11 @@ public class VMEmulator extends HackSimulator
             throw new CommandException("Unknown simulator command", command);
     }
 
+    @Override
+    public void stepBack() {
+        // not implemented
+    }
+
     // Hides all highlights in GUIs.
     private void hideHighlightes() {
         cpu.getRAM().hideHighlight();

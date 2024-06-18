@@ -20,7 +20,7 @@ package Hack.ComputerParts;
 /**
  * A memory which enables pointing at addresses.
  */
-public class PointedMemory extends Memory {
+public class PointedMemory extends Memory implements Cloneable {
 
     /**
      * Constructs a new PointedMemory of the given size with the given optional GUI.
@@ -43,6 +43,11 @@ public class PointedMemory extends Memory {
     public void setPointerAddress(int address) {
         if (displayChanges)
             ((PointedMemoryGUI)gui).setPointer(address);
+    }
+
+    public PointedMemory clone() throws CloneNotSupportedException {
+        PointedMemory clone = (PointedMemory) super.clone();
+        return clone;
     }
 
     public void reset() {

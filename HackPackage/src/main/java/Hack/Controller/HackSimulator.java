@@ -70,6 +70,11 @@ public abstract class HackSimulator implements ProgramEventListener, ComputerPar
      throws CommandException, ProgramException, VariableException;
 
     /**
+     * Moves back a step in the simulator.
+     */
+    public abstract void stepBack();
+
+    /**
      * Restarts the simulator.
      */
     public abstract void restart();

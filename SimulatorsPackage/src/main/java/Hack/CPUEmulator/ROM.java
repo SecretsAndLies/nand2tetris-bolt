@@ -102,6 +102,12 @@ public class ROM extends PointedMemory implements ProgramEventListener
 
     }
 
+    public ROM deepCopy(){
+        ROM copy = new ROM((ROMGUI) gui);
+        copy.setContents(getContents(),0);
+        return copy;
+    }
+
     /**
      * Called when the ROM's current program is changed.
      * The event contains the source object, event type and the new program's file name (if any).

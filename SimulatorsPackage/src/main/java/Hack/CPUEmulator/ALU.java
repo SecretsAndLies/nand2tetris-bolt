@@ -104,6 +104,9 @@ public class ALU extends ValueComputerPart {
         }
     }
 
+    public ALU deepCopy(){
+        return this;
+    }
 
     /**
      * Computes the value of the ALU's output according to the inputs and the

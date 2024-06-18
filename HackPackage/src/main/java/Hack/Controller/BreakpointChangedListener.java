@@ -15,7 +15,7 @@
  * mark your changes clearly, for the benefit of others.                        *
  ********************************************************************************/
 
-package HackGUI;
+package Hack.Controller;
 
 /**
  * An interface for objects that wants to listen to the BreakpointChangedEvent.

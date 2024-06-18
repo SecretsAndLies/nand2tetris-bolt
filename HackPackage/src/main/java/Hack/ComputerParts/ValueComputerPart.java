@@ -20,7 +20,7 @@ package Hack.ComputerParts;
 /**
  * A value computer part - a computer part that has values which can be get & set.
  */
-public abstract class ValueComputerPart extends ComputerPart {
+public abstract class ValueComputerPart extends ComputerPart implements Cloneable {
 
     // The amount of miliseconds that a changed value will flash.
     private static final int FLASH_TIME = 500;
@@ -34,6 +34,18 @@ public abstract class ValueComputerPart extends ComputerPart {
      */
     public ValueComputerPart(boolean hasGUI) {
         super(hasGUI);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        ValueComputerPart cloned = (ValueComputerPart) super.clone();
+        cloned.nullValue = this.nullValue;
+        if (this.hasGUI) {
+            cloned.hasGUI = true;
+            cloned.setDisplayChanges(this.displayChanges);
+            cloned.setAnimate(this.animate);
+        }
+        return cloned;
     }
 
     /**

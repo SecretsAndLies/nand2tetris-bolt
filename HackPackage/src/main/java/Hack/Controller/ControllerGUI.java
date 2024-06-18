@@ -43,6 +43,8 @@ public interface ControllerGUI {
      */
     public void notifyControllerListeners(byte action, Object data);
 
+    public BreakpointWindowGUI getBreakpointWindow();
+
     /**
      * Sets the simulator component
      */
@@ -168,6 +170,10 @@ public interface ControllerGUI {
      * Disables the fast forward action.
      */
     public void disableFastForward();
+
+    public void enableStepBack();
+
+    public void disableStepBack();
 
     /**
      * Enables the stop action.

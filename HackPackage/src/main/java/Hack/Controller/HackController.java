@@ -179,6 +179,9 @@ public class HackController
     // The single step task object
     private SingleStepTask singleStepTask;
 
+    // The Step Back task object
+    private StepBackTask stepBackTask;
+
     // The fast forward task object
     private FastForwardTask fastForwardTask;
 
@@ -255,6 +258,7 @@ public class HackController
         this.gui = gui;
         this.simulator = simulator;
         singleStepTask = new SingleStepTask();
+        stepBackTask = new StepBackTask();
         fastForwardTask = new FastForwardTask();
         setAnimationModeTask = new SetAnimationModeTask();
         setNumericFormatTask = new SetNumericFormatTask();
@@ -292,8 +296,9 @@ public class HackController
         gui.setAdditionalDisplay(simulator.getInitialAdditionalDisplay());
         gui.setVariables(simulator.getVariables());
 
-        stopMode();
 
+        stopMode();
+        gui.disableStepBack();
         simulator.prepareGUI(); // prepares the gui after it is displayed
     }
 
@@ -321,6 +326,7 @@ public class HackController
             lastEcho = "";
             currentCommandIndex = 0;
             gui.setCurrentScriptLine(script.getLineNumberAt(0));
+            gui.disableStepBack();
 
         } catch (ControllerException e) {
             displayMessage(e.getMessage(), true);
@@ -344,6 +350,7 @@ public class HackController
             gui.enableFastForward();
             gui.enableScript();
             gui.enableRewind();
+            gui.enableStepBack();
             gui.disableStop();
             gui.enableAnimationModes();
 
@@ -363,6 +370,7 @@ public class HackController
         gui.disableFastForward();
         gui.disableAnimationModes();
         gui.disableLoadProgram();
+        gui.disableStepBack();
 
         fastForwardRunning = true;
         simulator.prepareFastForward();
@@ -408,7 +416,6 @@ public class HackController
                         breakpoint.on();
                         gui.setBreakpoints(breakpoints);
                         displayMessage("Breakpoint reached", false);
-                        gui.showBreakpoints();
                         stopMode();
                     }
                 }
@@ -436,6 +443,25 @@ public class HackController
     private void stopWithError(Exception e) {
         displayMessage(e.getMessage(), true);
         stopMode();
+    }
+
+    private synchronized void stepBack(){
+        if (scriptEnded || programHalted) {
+            gui.enableSingleStep();
+            gui.enableFastForward();
+        }
+        scriptEnded = false;
+        programHalted = false;
+
+        simulator.stepBack();
+        refreshSimulator();
+        // todo guard logic here to prevent step back when not avail
+        currentCommandIndex = currentCommandIndex -1;
+        gui.setCurrentScriptLine(script.getLineNumberAt(currentCommandIndex));
+        // if at zero, then disable gui.disableStepBack();
+        // may also need to reset last echo if it was showing a message?
+        // you might need to reactivate the breakpoint?
+        notifyAll();
     }
 
     // Executes one command from the script and advances to the next.
@@ -954,9 +980,14 @@ public class HackController
                     gui.disableFastForward();
                     gui.disableScript();
                     gui.disableRewind();
+                    gui.disableStepBack();
                     gui.enableStop();
                     Thread t = new Thread(singleStepTask);
                     t.start();
+                    break;
+                case ControllerEvent.STEP_BACKWARDS:
+                    Thread t2 = new Thread(stepBackTask);
+                    t2.start();
                     break;
                 case ControllerEvent.FAST_FORWARD:
                     displayMessage(lastEcho, true);
@@ -1031,17 +1062,20 @@ public class HackController
                         programHalted = false;
                         gui.enableSingleStep();
                         gui.enableFastForward();
+                        gui.enableStepBack();
                     }
                     break;
                 case ControllerEvent.DISABLE_MOVEMENT:
                     gui.disableSingleStep();
                     gui.disableFastForward();
                     gui.disableRewind();
+                    gui.disableStepBack();
                     break;
                 case ControllerEvent.ENABLE_MOVEMENT:
                     gui.enableSingleStep();
                     gui.enableFastForward();
                     gui.enableRewind();
+                    gui.enableStepBack();
                     break;
                 case ControllerEvent.DISPLAY_MESSAGE:
                     displayMessage((String)event.getData(), false);
@@ -1070,6 +1104,15 @@ public class HackController
     protected void doUnknownAction(byte action, Object data) throws ControllerException {
     }
 
+
+    // Performs the single step task
+    class StepBackTask implements Runnable {
+        public void run() {
+            stepBack();
+        }
+    }
+
+
     // Performs the single step task
     class SingleStepTask implements Runnable {
 
@@ -1084,6 +1127,7 @@ public class HackController
                 }
                 gui.enableScript();
                 gui.enableRewind();
+                gui.enableStepBack();
             }
 
             if (animationMode == NO_DISPLAY_CHANGES) {

@@ -15,7 +15,7 @@
  * mark your changes clearly, for the benefit of others.                        *
  ********************************************************************************/
 
-package HackGUI;
+package Hack.Controller;
 
 import java.util.EventObject;
 import Hack.Controller.Breakpoint;

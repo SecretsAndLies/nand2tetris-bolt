@@ -93,6 +93,10 @@ public class RAM extends PointedMemory
         }
     }
 
+    public RAM deepCopy(){
+        return this;
+    }
+
     /**
      * Clears all labels.
      */
