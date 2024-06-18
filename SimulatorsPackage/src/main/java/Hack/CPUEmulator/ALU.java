@@ -23,7 +23,7 @@ import Hack.ComputerParts.*;
 /**
  * A computer ALU. Has two inputs, one output, and a set of commands.
  */
-public class ALU extends ValueComputerPart {
+public class ALU extends ValueComputerPart implements Cloneable{
 
     // The amount of miliseconds that the ALU will flash when computing its value.
     private static final int BODY_FLASH_TIME = 500;
@@ -104,10 +104,6 @@ public class ALU extends ValueComputerPart {
         }
     }
 
-    public ALU deepCopy(){
-        return this;
-    }
-
     /**
      * Computes the value of the ALU's output according to the inputs and the
      * current command.
@@ -180,5 +176,26 @@ public class ALU extends ValueComputerPart {
         quietUpdateGUI(0, input0);
         quietUpdateGUI(1, input1);
         quietUpdateGUI(2, output);
+    }
+
+    @Override
+    public ALU clone() {
+        try {
+            ALU clone = (ALU) super.clone();
+            clone.gui=gui;
+            clone.input0=input0;
+            clone.input1=input1;
+            clone.output=output;
+            clone.commandDescription = commandDescription;
+            clone.zero0=zero0;
+            clone.zero1=zero1;
+            clone.negate0=negate0;
+            clone.negate1=negate1;
+            clone.ADDorAND=ADDorAND;
+            clone.negateOutput=negateOutput;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

@@ -74,7 +74,7 @@ public class CPU implements Cloneable
 
     public CPU clone()  {
         try {
-            return new CPU(M.clone(), rom, A.clone(), D.copy(), PC.clone(), alu, bus);
+            return new CPU(M.clone(), rom, A.clone(), D.copy(), PC.clone(), alu.clone(), bus);
         } catch (CloneNotSupportedException e) {
             throw new RuntimeException(e);
         }
