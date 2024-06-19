@@ -75,8 +75,13 @@ public abstract class HackSimulator implements ProgramEventListener, ComputerPar
     public abstract void stepBack();
 
     /**
-     * Restarts the simulator.
+     * Returns true if it's possible to step back.
      */
+    public abstract boolean stepBackAvailable();
+
+        /**
+         * Restarts the simulator.
+         */
     public abstract void restart();
 
     /**

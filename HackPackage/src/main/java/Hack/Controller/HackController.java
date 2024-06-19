@@ -455,9 +455,9 @@ public class HackController
 
         simulator.stepBack();
         refreshSimulator();
-        currentCommandIndex = currentCommandIndex -1;
-        gui.setCurrentScriptLine(script.getLineNumberAt(currentCommandIndex));
-        gui.disableStepBack();
+        if(!simulator.stepBackAvailable()){
+            gui.disableStepBack();
+        }
         try {
             doClearEchoCommand(null);
         } catch (ControllerException e) {
@@ -575,7 +575,6 @@ public class HackController
             }
 
         } while (redo);
-
         return command.getTerminator();
     }
 

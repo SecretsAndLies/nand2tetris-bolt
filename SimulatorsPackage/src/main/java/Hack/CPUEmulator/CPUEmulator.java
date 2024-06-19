@@ -22,6 +22,9 @@ import Hack.ComputerParts.*;
 import Hack.Events.*;
 import Hack.Utilities.*;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /**
  * A CPU Emulator. Emulates machine code (In HACK format).
  *
@@ -47,6 +50,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
     private static final String VAR_RAM = "RAM";
     private static final String VAR_ROM = "ROM";
     private static final String VAR_TIME = "time";
+    private static final int NUM_CPUs_TO_SAVE = 5;
 
     // Commands
     private static final String COMMAND_TICKTOCK = "ticktock";
@@ -56,8 +60,8 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
     // The simulating cpu
     private CPU cpu;
 
-    // The CPU from the previuos step.
-    private CPU oldCPU;
+    // The CPUs from the previous steps
+    Deque<CPU> oldCPUs;
 
     // The GUI of the CPUEmulator
     private CPUEmulatorGUI gui;
@@ -77,6 +81,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
     public CPUEmulator() {
         RAM ram = new RAM(null, null, null);
         ram.reset();
+
 
         ROM rom = new ROM(null);
         rom.reset();
@@ -100,7 +105,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         bus.reset();
 
         cpu = new CPU(ram, rom, A, D, PC, alu, bus);
-        oldCPU = null;
+        oldCPUs = new ArrayDeque<>();
         init();
     }
 
@@ -141,7 +146,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         bus.reset();
 
         cpu = new CPU(ram, rom, A, D, PC, alu, bus);
-        oldCPU = null;
+        oldCPUs = new ArrayDeque<>();
 
         init();
     }
@@ -227,6 +232,13 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         }
     }
 
+    private void addToCPUs(){
+        if(oldCPUs.size()==NUM_CPUs_TO_SAVE){
+            oldCPUs.removeFirst();
+        }
+        oldCPUs.addLast(cpu.clone());
+    }
+
     /**
      * Executes the given simulator command (given in args[] style).
      * Throws CommandException if the command is not legal.
@@ -245,7 +257,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         if (command[0].equals(COMMAND_TICKTOCK)) {
             if (command.length != 1)
                 throw new CommandException("Illegal number of arguments to command", command);
-            oldCPU=cpu.clone();
+            addToCPUs();
             cpu.executeInstruction();
         }
         else if (command[0].equals(COMMAND_SETVAR)) {
@@ -283,15 +295,18 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
      */
     public void restart() {
         cpu.initProgram();
-        oldCPU=null;
+        oldCPUs=new ArrayDeque<>();
     }
 
     public void stepBack(){
-        cpu=oldCPU;
-        oldCPU=null;
+        cpu=oldCPUs.removeLast();
         if(gui!=null){
             refresh();
         }
+    }
+
+    public boolean stepBackAvailable(){
+        return oldCPUs.size()>0;
     }
 
     public void setAnimationMode(int newAnimationMode) {
@@ -410,7 +425,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
             refresh();
             notifyListeners(ControllerEvent.ENABLE_MOVEMENT, null);
             cpu.initProgram();
-            oldCPU=null;
+            oldCPUs=new ArrayDeque<>();
 
             setAnimationMode(oldAnimationMode);
         }

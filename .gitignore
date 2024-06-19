@@ -2,7 +2,7 @@
 .DS_Store
 *.class
 libs
-bin/CPU Emulator.dat
+*/CPU Emulator.dat
 */target
 */dependency-reduced-pom.xml
 **/*.iml

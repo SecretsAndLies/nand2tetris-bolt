@@ -478,6 +478,12 @@ public class VMEmulator extends HackSimulator
         // not implemented
     }
 
+    @Override
+    public boolean stepBackAvailable() {
+        // not implemented
+        return false;
+    }
+
     // Hides all highlights in GUIs.
     private void hideHighlightes() {
         cpu.getRAM().hideHighlight();
