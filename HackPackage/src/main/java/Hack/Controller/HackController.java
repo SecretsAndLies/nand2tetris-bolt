@@ -1090,10 +1090,7 @@ public class HackController
                     doUnknownAction(event.getAction(), event.getData());
                     break;
             }
-        } catch (ScriptException e) {
-            displayMessage(e.getMessage(), true);
-            stopMode();
-        } catch (ControllerException e) {
+        } catch (ScriptException | ControllerException e) {
             displayMessage(e.getMessage(), true);
             stopMode();
         }

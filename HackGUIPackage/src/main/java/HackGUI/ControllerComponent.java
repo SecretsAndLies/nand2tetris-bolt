@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * This class represents the GUI of the controller component.
  */
-public class ControllerComponent extends JFrame implements ControllerGUI,
+public class ControllerComponent extends JFrame implements  ControllerGUI,
                                                            FilesTypeListener,
                                                            BreakpointsChangedListener {
 
@@ -504,12 +504,17 @@ public class ControllerComponent extends JFrame implements ControllerGUI,
     }
 
     public void displayMessage(String message, boolean error) {
-        if(error)
-            messageLbl.setForeground(Color.red);
-        else
-            messageLbl.setForeground(UIManager.getColor("Label.foreground"));
-        messageLbl.setText(message);
-        messageLbl.setToolTipText(message);
+        if (error) {
+                messageLbl.setForeground(Color.red);
+                if(message!=null) {
+                    JOptionPane.showMessageDialog(this, message, "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                messageLbl.setForeground(UIManager.getColor("Label.foreground"));
+            }
+            messageLbl.setText(message);
+            messageLbl.setToolTipText(message);
     }
 
     /**
