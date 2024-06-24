@@ -18,11 +18,15 @@
 package Hack.CPUEmulator;
 
 import java.util.*;
+
+import Hack.Translators.HackCommand;
 import Hack.Utilities.*;
 import Hack.ComputerParts.*;
 import Hack.Controller.*;
 import Hack.Events.*;
 import Hack.Assembler.*;
+
+import static Hack.Utilities.Definitions.ROM_SIZE;
 
 /**
  * A Read Only Memory. Has methods for loading a machine language file (.hack) and for
@@ -50,6 +54,11 @@ public class ROM extends PointedMemory implements ProgramEventListener
      */
     public static final int ASM_FORMAT = 4;
 
+    /**
+     * Symbolic format
+     */
+    public static final int SYM_FORMAT = 5;
+
     // listeners to program changes
     private Vector listeners;
 
@@ -57,7 +66,7 @@ public class ROM extends PointedMemory implements ProgramEventListener
      * Constructs a new ROM with the given ROM GUI.
      */
     public ROM(ROMGUI gui) {
-        super(Definitions.ROM_SIZE, gui);
+        super(ROM_SIZE, gui);
         setNullValue(HackAssemblerTranslator.NOP, true);
         listeners = new Vector();
 
@@ -78,13 +87,16 @@ public class ROM extends PointedMemory implements ProgramEventListener
             ((ROMGUI)gui).showMessage("Loading...");
 
         try {
-            program = HackAssemblerTranslator.loadProgram(fileName, Definitions.ROM_SIZE,
+            ArrayList<HackCommand> hackCommands = HackAssemblerTranslator.loadProgram(fileName, ROM_SIZE,
                                                           HackAssemblerTranslator.NOP);
-
-            mem = program;
+            mem=new short[ROM_SIZE];
+            for (int i = 0; i < hackCommands.size(); i++) {
+                mem[i]=hackCommands.get(i).getCommandShort();
+            }
 
             if (displayChanges) {
                 gui.setContents(mem);
+                ((ROMGUI)gui).setHackCommandContents(hackCommands);
 
                 ((ROMGUI)gui).setProgram(fileName);
 
@@ -100,12 +112,6 @@ public class ROM extends PointedMemory implements ProgramEventListener
             throw new ProgramException(ae.getMessage());
         }
 
-    }
-
-    public ROM deepCopy(){
-        ROM copy = new ROM((ROMGUI) gui);
-        copy.setContents(getContents(),0);
-        return copy;
     }
 
     /**

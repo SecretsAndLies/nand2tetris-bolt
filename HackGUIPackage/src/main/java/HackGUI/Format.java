@@ -40,6 +40,8 @@ public class Format {
      */
     public static final int BIN_FORMAT = HackController.BINARY_FORMAT;
 
+
+
     /**
      * Translates a given string to a short according to the current format.
      * The format can be decimal, hexadecimal or binary.
@@ -82,6 +84,7 @@ public class Format {
             case BIN_FORMAT:
                 result = Conversions.decimalToBinary(value,16);
                 break;
+
         }
 
         return result;

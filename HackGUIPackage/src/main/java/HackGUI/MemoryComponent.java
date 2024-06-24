@@ -300,7 +300,7 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
         System.arraycopy(newValues, 0, values, 0, newValues.length);
         for(int i=0;i<values.length;i++) {
             addresses[i] = Format.translateValueToString((short)i, Format.DEC_FORMAT);
-            valuesStr[i] = translateValueToString(values[i]);
+            valuesStr[i] = translateValueToString(values[i], i);
         }
         memoryTable.revalidate();
         repaint();
@@ -312,7 +312,7 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
      */
     protected void updateTable(short value, int row) {
         values[row] = value;
-        valuesStr[row] = translateValueToString(value);
+        valuesStr[row] = translateValueToString(value, row);
     }
 
     /**
@@ -464,7 +464,7 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
     /**
      * Translates a given short to a string according to the current format.
      */
-    protected String translateValueToString(short value) {
+    protected String translateValueToString(short value, int i) {
         if(hideNullValue) {
             if(value == nullValue)
                 return "";
@@ -663,7 +663,7 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
                     notifyListeners((short)row,values[row]);
                 } catch(TranslationException te) {
                     notifyErrorListeners(te.getMessage());
-                    valuesStr[row] = translateValueToString(values[row]);
+                    valuesStr[row] = translateValueToString(values[row], row);
                 }
                 repaint();
                 notifyRepaintListeners();
@@ -678,7 +678,7 @@ public class MemoryComponent extends JPanel implements MemoryGUI {
     public void setNumericFormat(int formatCode) {
         dataFormat = formatCode;
         for(int i=0;i<values.length; i++)
-            valuesStr[i] = translateValueToString(values[i]);
+            valuesStr[i] = translateValueToString(values[i], i);
         repaint();
         notifyRepaintListeners();
 

@@ -18,6 +18,7 @@
 package SimulatorsGUI;
 
 import Hack.Controller.*;
+import Hack.Translators.HackCommand;
 import HackGUI.*;
 import Hack.CPUEmulator.*;
 import Hack.Events.*;
@@ -28,7 +29,6 @@ import java.util.Vector;
 import java.awt.event.*;
 import java.awt.*;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.table.*;
 import java.io.*;
 import Hack.Assembler.*;
 
@@ -45,6 +45,9 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
 
     // The ASM format.
     private final static int ASM_FORMAT = ROM.ASM_FORMAT;
+
+    // The Symbolic format (ie: @i instead of @16)
+    private final static int SYM_FORMAT = ROM.SYM_FORMAT;
 
     // The load file button.
     protected MouseOverJButton loadButton = new MouseOverJButton();
@@ -65,7 +68,7 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
     private JTextField messageTxt = new JTextField();
 
     // The possible numeric formats.
-    private String[] format = {"Asm", "Dec", "Hex", "Bin"};
+    private String[] format = {"Asm", "Dec", "Hex", "Bin", "Sym"};
 
     // The combo box for choosing the numeric format.
     protected JComboBox romFormat = new JComboBox(format);
@@ -73,6 +76,8 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
     // The name of the current program.
     private String programFileName;
     private ArrayList<Integer> breakpointRows = new ArrayList<>();
+
+    private ArrayList<HackCommand> hackCommands;
 
     /**
      * Constructs a new ROMComponent.
@@ -102,7 +107,15 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
             case Format.BIN_FORMAT:
                 romFormat.setSelectedIndex(3);
                 break;
+            case SYM_FORMAT:
+                romFormat.setSelectedIndex(4);
+                break;
+
         }
+    }
+
+    public void setHackCommandContents(ArrayList<HackCommand> hackCommands){
+        this.hackCommands=hackCommands;
     }
 
     // The listener for changes in breakpoints.
@@ -239,15 +252,20 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
     /**
      * Translates a given short to a string according to the current format.
      */
-    protected String translateValueToString(short value) {
+    protected String translateValueToString(short value, int index) {
         String result = null;
-        if(dataFormat != ASM_FORMAT)
-            result = super.translateValueToString(value);
-        else {
+         if (dataFormat==ASM_FORMAT) {
             try {
                 result = translator.codeToText(value);
             } catch (AssemblerException ae) {}
         }
+        else if (dataFormat==SYM_FORMAT){
+            // todo you need a way to get the index of the command you want to show...
+                result = hackCommands.get(index).getCommandString();
+        }
+        else{
+                result = super.translateValueToString(value, index);
+         }
         return result;
     }
 
@@ -347,6 +365,10 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
         else if (newFormat.equals(format[3])) {
             setNumericFormat(Format.BIN_FORMAT);
         }
+        else if (newFormat.equals(format[4])) {
+            setNumericFormat(SYM_FORMAT);
+        }
+
     }
 
     /**
@@ -360,7 +382,7 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
             if(breakpointRows.contains(row)) {
                 setBackground(new Color(255, 102, 102));
             }
-            if(dataFormat==ASM_FORMAT && column == 1)
+            if((dataFormat==ASM_FORMAT || dataFormat==SYM_FORMAT) && column == 1)
                 setHorizontalAlignment(SwingConstants.LEFT);
         }
     }

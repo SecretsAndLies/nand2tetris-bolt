@@ -22,6 +22,8 @@ import java.io.*;
 import Hack.Utilities.*;
 import Hack.Translators.*;
 
+import static Hack.Utilities.Definitions.ROM_SIZE;
+
 /**
  * A translation service between the Assembly text and the numeric instruction values.
  * The translation is bidirectional.
@@ -35,52 +37,52 @@ public class HackAssemblerTranslator {
     public static final short NOP = (short)0x8000;
 
     // exp constants
-    private static final Short ZERO         = new Short((short)0xea80);
-    private static final Short ONE          = new Short((short)0xefc0);
-    private static final Short MINUS_ONE    = new Short((short)0xee80);
-    private static final Short EXP_D        = new Short((short)0xe300);
-    private static final Short NOT_D        = new Short((short)0xe340);
-    private static final Short EXP_M        = new Short((short)0xfc00);
-    private static final Short EXP_A        = new Short((short)0xec00);
-    private static final Short NOT_M        = new Short((short)0xfc40);
-    private static final Short NOT_A        = new Short((short)0xec40);
-    private static final Short MINUS_D      = new Short((short)0xe3c0);
-    private static final Short MINUS_M      = new Short((short)0xfcc0);
-    private static final Short MINUS_A      = new Short((short)0xecc0);
-    private static final Short D_PLUS_ONE   = new Short((short)0xe7c0);
-    private static final Short M_PLUS_ONE   = new Short((short)0xfdc0);
-    private static final Short A_PLUS_ONE   = new Short((short)0xedc0);
-    private static final Short D_MINUS_ONE  = new Short((short)0xe380);
-    private static final Short M_MINUS_ONE  = new Short((short)0xfc80);
-    private static final Short A_MINUS_ONE  = new Short((short)0xec80);
-    private static final Short D_PLUS_M     = new Short((short)0xf080);
-    private static final Short D_PLUS_A     = new Short((short)0xe080);
-    private static final Short D_MINUS_M    = new Short((short)0xf4c0);
-    private static final Short D_MINUS_A    = new Short((short)0xe4c0);
-    private static final Short M_MINUS_D    = new Short((short)0xf1c0);
-    private static final Short A_MINUS_D    = new Short((short)0xe1c0);
-    private static final Short D_AND_M      = new Short((short)0xf000);
-    private static final Short D_AND_A      = new Short((short)0xe000);
-    private static final Short D_OR_M       = new Short((short)0xf540);
-    private static final Short D_OR_A       = new Short((short)0xe540);
+    private static final Short ZERO         = Short.valueOf((short) 0xea80);
+    private static final Short ONE          = Short.valueOf((short)0xefc0);
+    private static final Short MINUS_ONE    = Short.valueOf((short)0xee80);
+    private static final Short EXP_D        = Short.valueOf((short)0xe300);
+    private static final Short NOT_D        = Short.valueOf((short)0xe340);
+    private static final Short EXP_M        = Short.valueOf((short)0xfc00);
+    private static final Short EXP_A        = Short.valueOf((short)0xec00);
+    private static final Short NOT_M        = Short.valueOf((short)0xfc40);
+    private static final Short NOT_A        = Short.valueOf((short)0xec40);
+    private static final Short MINUS_D      = Short.valueOf((short)0xe3c0);
+    private static final Short MINUS_M      = Short.valueOf((short)0xfcc0);
+    private static final Short MINUS_A      = Short.valueOf((short)0xecc0);
+    private static final Short D_PLUS_ONE   = Short.valueOf((short)0xe7c0);
+    private static final Short M_PLUS_ONE   = Short.valueOf((short)0xfdc0);
+    private static final Short A_PLUS_ONE   = Short.valueOf((short)0xedc0);
+    private static final Short D_MINUS_ONE  = Short.valueOf((short)0xe380);
+    private static final Short M_MINUS_ONE  = Short.valueOf((short)0xfc80);
+    private static final Short A_MINUS_ONE  = Short.valueOf((short)0xec80);
+    private static final Short D_PLUS_M     = Short.valueOf((short)0xf080);
+    private static final Short D_PLUS_A     = Short.valueOf((short)0xe080);
+    private static final Short D_MINUS_M    = Short.valueOf((short)0xf4c0);
+    private static final Short D_MINUS_A    = Short.valueOf((short)0xe4c0);
+    private static final Short M_MINUS_D    =Short.valueOf ((short)0xf1c0);
+    private static final Short A_MINUS_D    =Short.valueOf ((short)0xe1c0);
+    private static final Short D_AND_M      =Short.valueOf ((short)0xf000);
+    private static final Short D_AND_A      = Short.valueOf((short)0xe000);
+    private static final Short D_OR_M       = Short.valueOf((short)0xf540);
+    private static final Short D_OR_A       = Short.valueOf((short)0xe540);
 
     // dest constants
-    private static final Short A   = new Short((short)0x20);
-    private static final Short M   = new Short((short)0x8);
-    private static final Short D   = new Short((short)0x10);
-    private static final Short AM  = new Short((short)0x28);
-    private static final Short AD  = new Short((short)0x30);
-    private static final Short MD  = new Short((short)0x18);
-    private static final Short AMD = new Short((short)0x38);
+    private static final Short A   =Short.valueOf ((short)0x20);
+    private static final Short M   = Short.valueOf((short)0x8);
+    private static final Short D   = Short.valueOf((short)0x10);
+    private static final Short AM  = Short.valueOf((short)0x28);
+    private static final Short AD  = Short.valueOf((short)0x30);
+    private static final Short MD  = Short.valueOf((short)0x18);
+    private static final Short AMD = Short.valueOf((short)0x38);
 
     // jmp constants
-    private static final Short JMP              = new Short((short)0x7);
-    private static final Short JMP_LESS_THEN    = new Short((short)0x4);
-    private static final Short JMP_EQUAL        = new Short((short)0x2);
-    private static final Short JMP_GREATER_THEN  = new Short((short)0x1);
-    private static final Short JMP_NOT_EQUAL    = new Short((short)0x5);
-    private static final Short JMP_LESS_EQUAL   = new Short((short)0x6);
-    private static final Short JMP_GREATER_EQUAL = new Short((short)0x3);
+    private static final Short JMP              = Short.valueOf((short)0x7);
+    private static final Short JMP_LESS_THEN    = Short.valueOf((short)0x4);
+    private static final Short JMP_EQUAL        = Short.valueOf((short)0x2);
+    private static final Short JMP_GREATER_THEN  = Short.valueOf((short)0x1);
+    private static final Short JMP_NOT_EQUAL    = Short.valueOf((short)0x5);
+    private static final Short JMP_LESS_EQUAL   = Short.valueOf((short)0x6);
+    private static final Short JMP_GREATER_EQUAL = Short.valueOf((short)0x3);
 
     // the single instance
     private static HackAssemblerTranslator instance;
@@ -91,6 +93,7 @@ public class HackAssemblerTranslator {
     // The translation table from code to text.
     private Hashtable expToText, destToText, jmpToText;
 
+    private static ArrayList<HackCommand> hackCommands;
 
     /**
      * Creates a new translator.
@@ -127,7 +130,7 @@ public class HackAssemblerTranslator {
      * If doesn't exist, throws AssemblerException.
      */
     public String getExpByCode(short code) throws AssemblerException {
-        String result = (String)expToText.get(new Short(code));
+        String result = (String)expToText.get(Short.valueOf(code));
         if (result == null)
             throw new AssemblerException("Illegal exp: " + code);
         return result;
@@ -149,7 +152,7 @@ public class HackAssemblerTranslator {
      * If doesn't exist, throws AssemblerException.
      */
     public String getDestByCode(short code) throws AssemblerException {
-        String result = (String)destToText.get(new Short(code));
+        String result = (String)destToText.get(Short.valueOf(code));
         if (result == null)
             throw new AssemblerException("Illegal dest: " + code);
         return result;
@@ -171,7 +174,7 @@ public class HackAssemblerTranslator {
      * If doesn't exist, throws AssemblerException.
      */
     public String getJmpByCode(short code) throws AssemblerException {
-        String result = (String)jmpToText.get(new Short(code));
+        String result = (String)jmpToText.get(Short.valueOf(code));
         if (result == null)
             throw new AssemblerException("Illegal jmp: " + code);
         return result;
@@ -285,7 +288,6 @@ public class HackAssemblerTranslator {
                 }
             }
         }
-
         return command.toString();
     }
 
@@ -294,7 +296,7 @@ public class HackAssemblerTranslator {
      * the given size that contains the program. The given null value will be used
      * to fill the memory array initially.
      */
-    public static short[] loadProgram(String fileName, int size, short nullValue)
+    public static ArrayList<HackCommand> loadProgram(String fileName, int size, short nullValue)
      throws AssemblerException {
         short[] memory = null;
 
@@ -324,7 +326,8 @@ public class HackAssemblerTranslator {
                     } catch (NumberFormatException nfe) {
                         throw new AssemblerException("Illegal character");
                     }
-
+                    // todo: improve on the unknown?
+                    hackCommands.add(new HackCommand("unknown", value));
                     memory[pc++] = value;
                 }
 
@@ -336,7 +339,12 @@ public class HackAssemblerTranslator {
         else if (fileName.endsWith(".asm")) {
             try {
                 HackAssembler assembler = new HackAssembler(fileName, size, nullValue, false);
-                memory = assembler.getProgram();
+                hackCommands = assembler.getProgram();
+                // todo: delete all the memory stuff?
+                memory= new short[ROM_SIZE];
+                for (int i=0; i<hackCommands.size(); i++){
+                    memory[i]=hackCommands.get(i).getCommandShort();
+                }
             } catch (HackTranslatorException ae) {
                 throw new AssemblerException(ae.getMessage());
             }
@@ -344,7 +352,7 @@ public class HackAssemblerTranslator {
         else
             throw new AssemblerException(fileName + " is not a .hack or .asm file");
 
-        return memory;
+        return hackCommands;
     }
 
     // initializes the exp table

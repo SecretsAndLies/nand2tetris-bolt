@@ -283,7 +283,6 @@ public class HackAssembler extends HackTranslator {
 
         try {
             AssemblyLineTokenizer input = new AssemblyLineTokenizer(line);
-
             if (!input.isEnd() && !input.isToken("(")) {
                 if (input.isToken("@")) {
                     input.advance(true);
@@ -303,14 +302,14 @@ public class HackAssembler extends HackTranslator {
                             symbolTable.put(label, address);
                         }
 
-                        addCommand(translator.textToCode("@" + address.shortValue()));
+                        addCommand(translator.textToCode("@" + address.shortValue()),line);
                     }
                     else
-                        addCommand(translator.textToCode(line));
+                        addCommand(translator.textToCode(line),line);
                 }
                 else { // try to compile normaly, if error - try to compile as compact assembly
                     try {
-                        addCommand(translator.textToCode(line));
+                        addCommand(translator.textToCode(line),line);
                     } catch (AssemblerException ae) {
                         int openAddressPos = line.indexOf("[");
                         if (openAddressPos >= 0) {

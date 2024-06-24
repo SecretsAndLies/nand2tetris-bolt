@@ -19,6 +19,7 @@ package Hack.Translators;
 
 import javax.swing.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import Hack.ComputerParts.*;
 import java.awt.event.*;
@@ -49,6 +50,8 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
 
     // The program array
     protected short[] program;
+
+    protected ArrayList<HackCommand> hackCommands = new ArrayList<>();
 
     // The source code array
     protected String[] source;
@@ -211,8 +214,10 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
      */
     protected void init(int size, short nullValue) {
         program = new short[size];
-        for (int i = 0; i < size; i++)
+        for (int i = 0; i < size; i++) {
             program[i] = nullValue;
+            hackCommands.add(new HackCommand("",nullValue));
+        }
         programSize = 0;
     }
 
@@ -424,10 +429,10 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
      * Adds the given command to the next position in the program.
      * Throws HackTranslatorException if the program is too large
      */
-    protected void addCommand(short command) throws HackTranslatorException {
+    protected void addCommand(short command, String commandText) throws HackTranslatorException {
         if (destPC >= program.length)
             throw new HackTranslatorException("Program too large");
-
+        hackCommands.set(destPC,new HackCommand(commandText,command));
         program[destPC++] = command;
         if (updateGUI)
             gui.getDestination().addLine(getCodeString(command, destPC - 1, true));
@@ -436,8 +441,10 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
     /**
      * Replaces the command in program location pc with the given command.
      */
-    protected void replaceCommand(int pc, short command) {
+    protected void replaceCommand(int pc, short command, String commandText) {
         program[pc] = command;
+        hackCommands.set(pc,new HackCommand(commandText,command));
+        // todo: I think get code string should probobly take in the Hack Command, not the short.
         if (updateGUI)
             gui.getDestination().setLineAt(pc, getCodeString(command, pc, true));
     }
@@ -450,9 +457,9 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
 
         String[] lines = new String[numOfCommands];
 
-        for (int i = 0; i < numOfCommands; i++)
+        for (int i = 0; i < numOfCommands; i++) {
             lines[i] = getCodeString(program[i], i, true);
-
+        }
         gui.getDestination().setContents(lines);
     }
 
@@ -578,8 +585,8 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
     /**
      * Returns the translated machine code program array
      */
-    public short[] getProgram() {
-        return program;
+    public ArrayList<HackCommand> getProgram() {
+        return hackCommands;
     }
 
     /**

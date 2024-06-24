@@ -21,6 +21,9 @@ import Hack.ComputerParts.*;
 import Hack.Controller.BreakpointsChangedListener;
 import Hack.Events.*;
 import Hack.Controller.BreakpointChangedListener;
+import Hack.Translators.HackCommand;
+
+import java.util.ArrayList;
 
 /**
  * An interface for a computer ROM GUI, which is a Pointed Memory GUI.
@@ -51,9 +54,12 @@ public interface ROMGUI extends PointedMemoryGUI {
      */
     public void notifyProgramListeners(byte eventType, String programFileName);
 
-    /**
-     * Sets the current program file name with the given name.
-     */
+    // sets the contents of the Hack Commands - this stores both the short and extra information about it.
+    public void setHackCommandContents(ArrayList<HackCommand> hackCommands);
+
+        /**
+         * Sets the current program file name with the given name.
+         */
     public void setProgram(String programFileName);
 
     /**
