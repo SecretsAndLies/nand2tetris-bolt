@@ -38,7 +38,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
 
     // The dimensions of this window.
     private static final int CONTROLLER_WIDTH = 1024;
-    private static final int CONTROLLER_HEIGHT = 741;
+    private static final int CONTROLLER_HEIGHT = 750;
 
     // The dimensions of the toolbar's separator.
     protected static final Dimension separatorDimension = new Dimension(3, TOOLBAR_HEIGHT - 5);
