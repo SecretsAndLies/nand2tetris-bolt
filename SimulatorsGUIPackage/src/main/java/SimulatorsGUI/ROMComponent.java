@@ -89,6 +89,18 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filter);
         jbInit();
+        memoryTable.addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseMoved(MouseEvent e) {
+                int row = memoryTable.rowAtPoint(e.getPoint());
+                int column = memoryTable.columnAtPoint(e.getPoint());
+                if (row > -1 && column == 1 && dataFormat==SYM_FORMAT) {
+                    Object value = memoryTable.getValueAt(row, column);
+                    if(value!=null){
+                        memoryTable.setToolTipText(value.toString());
+                    }
+                }
+            }
+        });
     }
 
 

@@ -165,8 +165,8 @@ public class HackAssembler extends HackTranslator {
                             error("')' expected");
 
                         input.ensureEnd();
-
-                        symbolTable.put(label,new Short(pc));
+                        System.out.println(label+pc);
+                        symbolTable.put(label,Short.valueOf(pc));
                     }
                     else if (input.contains("["))
                         pc += 2;
@@ -298,7 +298,7 @@ public class HackAssembler extends HackTranslator {
                     if (!numeric) {
                         Short address = (Short)symbolTable.get(label);
                         if (address == null) {
-                            address = new Short(varIndex++);
+                            address = Short.valueOf(varIndex++);
                             symbolTable.put(label, address);
                         }
 
