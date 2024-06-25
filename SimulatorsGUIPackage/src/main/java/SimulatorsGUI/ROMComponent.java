@@ -260,8 +260,18 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
             } catch (AssemblerException ae) {}
         }
         else if (dataFormat==SYM_FORMAT){
-            // todo you need a way to get the index of the command you want to show...
-                result = hackCommands.get(index).getCommandString();
+             try {
+                 if(hackCommands!=null) {
+                     result = hackCommands.get(index).getCommandString();
+                 }
+             }
+             catch (IndexOutOfBoundsException e){}
+            if(result!=null && result.equals("unknown")){
+                try {
+                    result = translator.codeToText(value);
+                } catch (AssemblerException e) {
+                }
+            }
         }
         else{
                 result = super.translateValueToString(value, index);

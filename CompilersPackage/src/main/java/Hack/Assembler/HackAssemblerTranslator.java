@@ -303,6 +303,7 @@ public class HackAssemblerTranslator {
         File file = new File(fileName);
         if (!file.exists())
             throw new AssemblerException(fileName + " doesn't exist");
+        hackCommands=new ArrayList<>();
 
         if (fileName.endsWith(".hack")) {
             memory = new short[size];

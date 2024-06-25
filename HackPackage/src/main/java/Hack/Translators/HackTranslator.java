@@ -390,7 +390,7 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
             while(sourcePC < source.length) {
                 int[] compiledRange = compileLineAndCount(source[sourcePC]);
                 if (compiledRange != null) {
-                    compilationMap.put(new Integer(sourcePC), compiledRange);
+                    compilationMap.put(Integer.valueOf(sourcePC), compiledRange);
                 }
 
                 sourcePC++;
@@ -496,7 +496,7 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
             int[] compiledRange = compileLineAndCount(source[sourcePC]);
 
             if (compiledRange != null) {
-                compilationMap.put(new Integer(sourcePC), compiledRange);
+                compilationMap.put(Integer.valueOf(sourcePC), compiledRange);
             }
 
             sourcePC++;
@@ -607,7 +607,7 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
      * Returns the range in the compilation map that corresponds to the given rowIndex.
      */
     protected int[] rowIndexToRange(int rowIndex) {
-        Integer key = new Integer(rowIndex);
+        Integer key = Integer.valueOf(rowIndex);
         return (int[])compilationMap.get(key);
     }
 
