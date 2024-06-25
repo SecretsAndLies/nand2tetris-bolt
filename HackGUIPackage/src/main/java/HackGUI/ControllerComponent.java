@@ -815,8 +815,8 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
         slowLabel.setFont(Utilities.thinLabelsFont);
         JLabel fastLabel = new JLabel("Fast");
         fastLabel.setFont(Utilities.thinLabelsFont);
-        labelTable.put(new Integer(1), slowLabel);
-        labelTable.put(new Integer(5), fastLabel);
+        labelTable.put(Integer.valueOf(1), slowLabel);
+        labelTable.put(Integer.valueOf(5), fastLabel);
 
         speedSlider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -1003,7 +1003,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
                 break;
         }
 
-        notifyControllerListeners(ControllerEvent.ADDITIONAL_DISPLAY_CHANGE, new Integer(selectedIndex));
+        notifyControllerListeners(ControllerEvent.ADDITIONAL_DISPLAY_CHANGE, Integer.valueOf(selectedIndex));
     }
 
     /**
@@ -1070,7 +1070,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
         JSlider source = (JSlider)e.getSource();
         if (!source.getValueIsAdjusting()) {
             int speed = (int)source.getValue();
-            notifyControllerListeners(ControllerEvent.SPEED_CHANGE, new Integer(speed));
+            notifyControllerListeners(ControllerEvent.SPEED_CHANGE, Integer.valueOf(speed));
         }
     }
 
@@ -1096,7 +1096,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
                 break;
         }
 
-        notifyControllerListeners(ControllerEvent.ANIMATION_MODE_CHANGE,new Integer(selectedIndex));
+        notifyControllerListeners(ControllerEvent.ANIMATION_MODE_CHANGE,Integer.valueOf(selectedIndex));
     }
 
     /**
@@ -1121,7 +1121,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
                 break;
         }
 
-        notifyControllerListeners(ControllerEvent.NUMERIC_FORMAT_CHANGE,new Integer(selectedIndex));
+        notifyControllerListeners(ControllerEvent.NUMERIC_FORMAT_CHANGE,Integer.valueOf(selectedIndex));
     }
 
     /**
