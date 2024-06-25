@@ -506,7 +506,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
     public void displayMessage(String message, boolean error) {
         if (error) {
                 messageLbl.setForeground(Color.red);
-                if(message!=null) {
+                if(message!=null && !message.isEmpty()) {
                     JOptionPane.showMessageDialog(this, message, "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
