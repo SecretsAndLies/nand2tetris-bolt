@@ -165,7 +165,6 @@ public class HackAssembler extends HackTranslator {
                             error("')' expected");
 
                         input.ensureEnd();
-                        System.out.println(label+pc);
                         symbolTable.put(label,Short.valueOf(pc));
                     }
                     else if (input.contains("["))
@@ -296,16 +295,15 @@ public class HackAssembler extends HackTranslator {
                     }
 
                     if (!numeric) {
-                        Short address = (Short)symbolTable.get(label);
+                        Short address = (Short) symbolTable.get(label);
                         if (address == null) {
                             address = Short.valueOf(varIndex++);
                             symbolTable.put(label, address);
                         }
-
-                        addCommand(translator.textToCode("@" + address.shortValue()),line);
+                        addCommand(translator.textToCode("@" + address.shortValue()), line);
+                    } else {
+                        addCommand(translator.textToCode(line), line);
                     }
-                    else
-                        addCommand(translator.textToCode(line),line);
                 }
                 else { // try to compile normaly, if error - try to compile as compact assembly
                     try {
