@@ -30,6 +30,22 @@ public class EmulatorTests {
     }
 
     @Test
+    public void testROMStepBack() throws VariableException, CommandException,
+            ProgramException {
+        CPUEmulator cpuEmulator = new CPUEmulator();
+        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+        cpuEmulator.doCommand("load src/test/java/edu/uob/comments.hack".split(" "));
+        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+        runCycles(cpuEmulator,5);
+        assertEquals("16",cpuEmulator.getValue("RAM[16]"));
+        cpuEmulator.stepBack();
+        cpuEmulator.stepBack();
+        cpuEmulator.stepBack();
+        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+
+    }
+
+    @Test
     public void testStepBack() throws VariableException, CommandException, ProgramException {
         CPUEmulator cpuEmulator = new CPUEmulator();
         cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
