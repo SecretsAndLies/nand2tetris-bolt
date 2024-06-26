@@ -327,7 +327,6 @@ public class HackAssemblerTranslator {
                     } catch (NumberFormatException nfe) {
                         throw new AssemblerException("Illegal character");
                     }
-                    // todo: improve on the unknown?
                     hackCommands.add(new HackCommand("unknown", value));
                     memory[pc++] = value;
                 }
@@ -341,7 +340,6 @@ public class HackAssemblerTranslator {
             try {
                 HackAssembler assembler = new HackAssembler(fileName, size, nullValue, false);
                 hackCommands = assembler.getProgram();
-                // todo: delete all the memory stuff?
                 memory= new short[ROM_SIZE];
                 for (int i=0; i<hackCommands.size(); i++){
                     memory[i]=hackCommands.get(i).getCommandShort();
