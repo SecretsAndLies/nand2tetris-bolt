@@ -18,7 +18,7 @@
 package Hack.Assembler;
 
 import java.io.*;
-import java.util.Hashtable;
+import java.util.HashMap;
 import Hack.ComputerParts.*;
 import Hack.Utilities.*;
 import Hack.Translators.*;
@@ -35,7 +35,10 @@ public class HackAssembler extends HackTranslator {
     private String comparisonFileName;
 
     // the symbol table
-    private Hashtable symbolTable;
+    private HashMap<String, Short> symbolTable;
+
+    // the label table (a subset of the symbol table that supports reverse lookup by line number)
+    private HashMap<Integer, String> labels;
 
     // The comarison program array
     private short[] comparisonProgram;
@@ -146,6 +149,7 @@ public class HackAssembler extends HackTranslator {
     // value according to it's location in the program
     private void generateSymbolTable() throws HackTranslatorException {
         symbolTable = Definitions.getInstance().getAddressesTable();
+        labels=Definitions.getInstance().getLabelTable();
         short pc = 0;
         String line;
         String label;
@@ -165,7 +169,8 @@ public class HackAssembler extends HackTranslator {
                             error("')' expected");
 
                         input.ensureEnd();
-                        symbolTable.put(label,Short.valueOf(pc));
+                        symbolTable.put(label,pc);
+                        labels.put((int) pc,label);
                     }
                     else if (input.contains("["))
                         pc += 2;
@@ -277,9 +282,16 @@ public class HackAssembler extends HackTranslator {
         }
     }
 
+    private String createOutputLine(String line){
+        String labelTag = "";
+        if(labels.containsKey(destPC)){
+            labelTag=" ("+labels.get(destPC)+")";
+        }
+        return line.trim()+labelTag;
+    }
+
     // If the line is a label, returns null.
     protected void compileLine(String line) throws HackTranslatorException {
-
         try {
             AssemblyLineTokenizer input = new AssemblyLineTokenizer(line);
             if (!input.isEnd() && !input.isToken("(")) {
@@ -296,18 +308,19 @@ public class HackAssembler extends HackTranslator {
 
                     if (!numeric) {
                         Short address = (Short) symbolTable.get(label);
+                        // this means that it's not a label, it's a variable.
                         if (address == null) {
-                            address = Short.valueOf(varIndex++);
+                            address = varIndex++;
                             symbolTable.put(label, address);
                         }
-                        addCommand(translator.textToCode("@" + address.shortValue()), line);
+                        addCommand(translator.textToCode("@" + address.shortValue()), createOutputLine(line));
                     } else {
-                        addCommand(translator.textToCode(line), line);
+                        addCommand(translator.textToCode(line), createOutputLine(line));
                     }
                 }
                 else { // try to compile normaly, if error - try to compile as compact assembly
                     try {
-                        addCommand(translator.textToCode(line),line);
+                        addCommand(translator.textToCode(line),createOutputLine(line));
                     } catch (AssemblerException ae) {
                         int openAddressPos = line.indexOf("[");
                         if (openAddressPos >= 0) {
