@@ -300,6 +300,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
 
     public void stepBack(){
         cpu=oldCPUs.removeLast();
+        keyboard.setRAM(cpu.getRAM());
         if(gui!=null){
             refresh();
         }

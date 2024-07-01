@@ -53,6 +53,10 @@ public class Keyboard extends ComputerPart implements KeyListener {
         return gui;
     }
 
+    public void setRAM(RAM ram){
+        this.ram=ram;
+    }
+
     /**
      * Activated when a key is pressed.
      */

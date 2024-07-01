@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class EmulatorTests {
     public boolean screenIs(CPUEmulator cpuEmulator, String value) throws VariableException {
         for (int i = 16384; i < 24576; i++) {
-            if(!cpuEmulator.getValue("RAM["+i+"]").equals(value)){
+            String simulatorValue = cpuEmulator.getValue("RAM["+i+"]");
+            if(!simulatorValue.equals(value)){
                 return false;
             }
         }
@@ -117,6 +117,21 @@ public class EmulatorTests {
         cpuEmulator.doCommand("load src/test/java/edu/uob/kbd.hack".split(" "));
         runCycles(cpuEmulator,100);
         assertNotEquals("7",cpuEmulator.getValue("RAM[25]"));
+    }
+
+    @Test
+    public void testKBDWithStepBack() throws VariableException, CommandException, ProgramException {
+        CPUEmulator cpuEmulator = new CPUEmulator();
+        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+        // set the keyboard bit of the ram to 0
+        cpuEmulator.doCommand("set RAM[24576] 0".split(" "));
+        cpuEmulator.doCommand("load src/test/java/edu/uob/screen_black_on_a_input.hack".split(" "));
+        runCycles(cpuEmulator,100000);
+        assertTrue(screenIs(cpuEmulator, "0"));
+        cpuEmulator.stepBack();
+        cpuEmulator.doCommand("set RAM[24576] 97".split(" "));
+        runCycles(cpuEmulator,100000);
+        assertTrue(screenIs(cpuEmulator, "-1"));
     }
 
     @Test
