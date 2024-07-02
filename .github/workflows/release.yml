@@ -25,6 +25,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: ${{ matrix.java }}
+        distribution: 'adopt' # Use 'adopt' as the Java distribution
 
     - name: Cache Maven packages
       uses: actions/cache@v2
@@ -48,6 +49,7 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '8'
+        distribution: 'adopt' # Use 'adopt' as the Java distribution
 
     - name: Package project
       run: mvn package
