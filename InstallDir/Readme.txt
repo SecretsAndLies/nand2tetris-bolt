@@ -25,8 +25,7 @@ install and extract the new version from scratch.
 
 Software Requirements (brief):
 --------------------------------------------------------------
-The Software Suite requires JRE1.3 or JDK1.3 (or later
-versions).
+The Software Suite requires Java 8 or later.
 
 
 Software Requirements (detailed):
@@ -73,5 +72,4 @@ JDK folder is included in your PATH & CLASSPATH system
 variables.
 
 If the GUI doesn't work properly, make sure that you are using
-the version 1.3 or later of the JRE/JDK. Our software may work 
-on version 1.2 as well, but with many GUI problems.
+the version 8 or later of the JRE/JDK. 
