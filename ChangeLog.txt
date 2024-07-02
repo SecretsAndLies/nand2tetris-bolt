@@ -16,8 +16,14 @@ mark your changes clearly, for the benefit of others.
 
 2.6
 ===
-Fixed CPU Emulator keyboard bug where upper and lowercase inputs are treated
- the same.
+Fixed: CPU Emulator keyboard bug where upper and lowercase inputs are treated
+ the same. Visualized this with eg: Key: 'A' Key Code: '12'
+Added: A step back button that allows users to step back up to 5 steps in time on 
+       the CPU Emulator.
+Added: Mavenized version of the build, including support for testing.
+Added: 'Sym' An option that lets the CPU Emulator show comments and 
+       variable names when executing assembly code.
+Added: Ability to right click lines to set breakpoints (similar to IntelliJ).
 
 2.5
 ===
