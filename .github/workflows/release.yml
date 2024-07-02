@@ -1,5 +1,12 @@
 name: Build, Test, and Release
 
+permissions:
+  contents: write
+  packages: write
+  issues: write
+  pull-requests: write
+  actions: write
+
 on:
   push:
     branches: [ main ]
