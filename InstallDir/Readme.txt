@@ -25,7 +25,9 @@ install and extract the new version from scratch.
 
 Software Requirements (brief):
 --------------------------------------------------------------
-The Software Suite requires Java 8 or later.
+The Software Suite requires:
+ - Java 8 or later
+ - Maven.
 
 
 Software Requirements (detailed):

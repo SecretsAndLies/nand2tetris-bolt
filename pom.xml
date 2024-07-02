@@ -16,11 +16,7 @@
     <module>CompilersPackage</module>
     <module>SimulatorsPackage</module>
     <module>SimulatorsGUIPackage</module>
-    <module>BuiltInChips</module>
-    <module>BuiltInVMCode</module>
-    <module>HardwareSimulator</module>
     <module>CPUEmulator</module>
-    <module>VMEmulator</module>
     <module>TextComparer</module>
   </modules>
 
