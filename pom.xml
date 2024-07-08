@@ -18,6 +18,7 @@
     <module>SimulatorsGUIPackage</module>
     <module>CPUEmulator</module>
     <module>TextComparer</module>
+    <module>AssemblerCommandLine</module>
   </modules>
 
   <properties>
@@ -27,6 +28,12 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.nand2tetris</groupId>
+	<artifactId>AssemblerCommandLine</artifactId>
+	<version>${hackJack.version}</version>
+      </dependency>
+
       <dependency>
         <groupId>org.nand2tetris</groupId>
 	<artifactId>HackPackage</artifactId>
@@ -72,11 +79,6 @@
   </dependencyManagement>
 
   <build>
-      <resources>
-        <resource>
-          <directory>bin</directory>
-        </resource>
-      </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
