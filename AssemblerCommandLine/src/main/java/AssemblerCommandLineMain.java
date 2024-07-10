@@ -19,11 +19,11 @@ public class AssemblerCommandLineMain {
             writer.write(args[0]);
             writer.close();
 
-            new HackAssembler(tempFile.getAbsolutePath(),
+            HackAssembler assembler = new HackAssembler(tempFile.getAbsolutePath(),
                     ROM_SIZE,
                     HackAssemblerTranslator.NOP,
                     false);
-            // out the hack program?
+            System.out.print(assembler.getCompiledProgram());
             System.exit(0);
         } catch (HackTranslatorException e) {
             System.err.println(e.getMessage());

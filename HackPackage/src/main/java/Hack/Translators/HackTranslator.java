@@ -589,6 +589,17 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
         return hackCommands;
     }
 
+
+    public String getCompiledProgram(){
+        StringBuilder compiledProgram = new StringBuilder();
+        for (short i = 0; i < programSize; i++){
+            compiledProgram.append(
+                    String.valueOf(hackCommands.get(i).getCommandShort()))
+                    .append(System.lineSeparator());
+        }
+        return compiledProgram.toString();
+    }
+
     /**
      * Dumps the contents of the translated program into the destination file
      */
