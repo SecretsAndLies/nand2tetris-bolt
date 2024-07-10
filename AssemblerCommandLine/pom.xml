@@ -55,7 +55,7 @@
         <artifactId>junit-platform-suite</artifactId>
         <version>1.8.2</version>
         <scope>test</scope>
-      </dependency>
+      </dependency><dependency><groupId>org.nand2tetris</groupId><artifactId>CompilersPackage</artifactId></dependency>
   </dependencies>
 
 </project>
