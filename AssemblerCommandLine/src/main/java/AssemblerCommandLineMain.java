@@ -2,19 +2,34 @@ import Hack.Assembler.HackAssembler;
 import Hack.Assembler.HackAssemblerTranslator;
 import Hack.Translators.HackTranslatorException;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import static Hack.Utilities.Definitions.ROM_SIZE;
 
 public class AssemblerCommandLineMain {
     public static void main(String[] args) {
+        if(args.length<1){
+            System.exit(2);
+        }
         try {
-            new HackAssembler("/Users/alijardine/Documents/Code/nand2tetris-bolt/SimulatorsPackage/src/test/java/edu/uob/invalid.asm",
+            File tempFile  = File.createTempFile("user_code",".asm");
+            FileWriter writer = new FileWriter(tempFile);
+            writer.write(args[0]);
+            writer.close();
+
+            new HackAssembler(tempFile.getAbsolutePath(),
                     ROM_SIZE,
                     HackAssemblerTranslator.NOP,
                     false);
+            // out the hack program?
             System.exit(0);
         } catch (HackTranslatorException e) {
             System.err.println(e.getMessage());
             System.exit(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
