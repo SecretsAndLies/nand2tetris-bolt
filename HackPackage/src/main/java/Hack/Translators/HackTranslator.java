@@ -27,6 +27,9 @@ import java.util.Vector;
 import Hack.Translators.*;
 import Hack.Utilities.*;
 
+import static Hack.Utilities.Conversions.decimalToBinary;
+import static Hack.Utilities.Definitions.BITS_PER_WORD;
+
 /**
  * This object provides translation services.
  */
@@ -593,9 +596,8 @@ public abstract class HackTranslator implements HackTranslatorEventListener, Act
     public String getCompiledProgram(){
         StringBuilder compiledProgram = new StringBuilder();
         for (short i = 0; i < programSize; i++){
-            compiledProgram.append(
-                    String.valueOf(hackCommands.get(i).getCommandShort()))
-                    .append(System.lineSeparator());
+            String binary = decimalToBinary(hackCommands.get(i).getCommandShort(),BITS_PER_WORD);
+            compiledProgram.append(binary).append(System.lineSeparator());
         }
         return compiledProgram.toString();
     }
