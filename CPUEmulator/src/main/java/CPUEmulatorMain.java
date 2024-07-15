@@ -47,7 +47,7 @@ public class CPUEmulatorMain
         }
         else {
             CPUEmulator cpuEmulator = new CPUEmulator();
-            new HackController(new CPUEmulator(), args[0]);
+            new HackController(cpuEmulator, args[0]);
             // the rest of this will not run if Hack Controller fails, it exits in failure -1 with a message.
             // otherwise, sucess message is printed, followed by this.
             org.json.JSONObject obj = new org.json.JSONObject();

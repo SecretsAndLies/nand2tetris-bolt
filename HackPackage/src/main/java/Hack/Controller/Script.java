@@ -30,12 +30,12 @@ public class Script {
     /**
      * Maximum arguments for a simulator script command.
      */
-    public static final int MAX_SIMULATOR_COMMAND_ARGUMENTS = 4;
+    public static final int MAX_SIMULATOR_COMMAND_ARGUMENTS = 40;
 
     /**
      * Maximum arguments for an output-list script command.
      */
-    public static final int MAX_OUTPUT_LIST_ARGUMENTS = 20;
+    public static final int MAX_OUTPUT_LIST_ARGUMENTS = 32768;
 
     // The list of commands
     private Vector commands;
