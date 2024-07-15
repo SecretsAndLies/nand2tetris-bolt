@@ -45,7 +45,19 @@ public class CPUEmulatorMain
                 new CPUEmulatorApplication(controllerGUI, simulatorGUI, "bin/scripts/defaultCPU.txt",
                                            "bin/help/cpuUsage.html", "bin/help/cpuAbout.html");
         }
-        else
+        else {
+            CPUEmulator cpuEmulator = new CPUEmulator();
             new HackController(new CPUEmulator(), args[0]);
+            // the rest of this will not run if Hack Controller fails, it exits in failure -1 with a message.
+            // otherwise, sucess message is printed, followed by this.
+            org.json.JSONObject obj = new org.json.JSONObject();
+            try {
+                obj.put("cycles_used", Integer.valueOf(cpuEmulator.getValue("time")));
+            } catch (VariableException e) {
+                throw new RuntimeException(e);
+            }
+            obj.put("ram_used", 11); // todo: have this actually update with ram used.
+            System.out.println(obj);
+        }
     }
 }

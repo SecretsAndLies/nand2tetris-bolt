@@ -228,6 +228,7 @@ public class HackController
             displayMessage(scriptFileName + " doesn't exist", true);
 
         this.simulator = simulator;
+        this.simulator.setWorkingDir(file.getParentFile());
         animationMode = NO_DISPLAY_CHANGES;
         simulator.setAnimationMode(animationMode);
         simulator.addListener(this);
