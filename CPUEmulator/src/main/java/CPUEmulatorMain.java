@@ -57,7 +57,7 @@ public class CPUEmulatorMain
             } catch (VariableException e) {
                 throw new RuntimeException(e);
             }
-            obj.put("ram_used", cpuEmulator.getNumberOfRAMLocationsAccessed()); // todo: have this actually update with ram used.
+            obj.put("ram_used", cpuEmulator.getNumberOfRAMLocationsAccessed());
             System.out.println(obj);
         }
     }
