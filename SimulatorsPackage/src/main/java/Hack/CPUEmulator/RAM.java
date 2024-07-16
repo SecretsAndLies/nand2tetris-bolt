@@ -20,6 +20,9 @@ package Hack.CPUEmulator;
 import Hack.Utilities.*;
 import Hack.ComputerParts.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A Random Access Memory, which is mapped to a screen, and enables a segmented view on it.
  */
@@ -36,6 +39,9 @@ public class RAM extends PointedMemory implements Cloneable
     // memory segments mapping
     private MemorySegment[][] segments;
 
+    // The list of RAM locations that have been accessed in this execution.
+    private Set<Integer> accessedRAMLocations;
+
     /**
      * Constructs a new RAM with the given optional GUI components:
      * mainGUI - the main GUI of the ram.
@@ -51,6 +57,7 @@ public class RAM extends PointedMemory implements Cloneable
         super(Definitions.RAM_SIZE, mainGUI);
         this.segments = segments;
         this.screen = screenGUI;
+        this.accessedRAMLocations=new HashSet<>();
     }
 
     /**
@@ -58,6 +65,7 @@ public class RAM extends PointedMemory implements Cloneable
      */
     public void setValueAt(int address, short value, boolean quiet) {
         super.setValueAt(address, value, quiet);
+        accessedRAMLocations.add(address);
 
         // if screen area changed, update its GUI
         if (screen != null && address >= Definitions.SCREEN_START_ADDRESS
@@ -75,6 +83,10 @@ public class RAM extends PointedMemory implements Cloneable
                     segments[address][i].setStartAddress(value);
             }
         }
+    }
+
+    public int getNumberOfRAMLocationsAccessed(){
+        return accessedRAMLocations.size();
     }
 
     /**

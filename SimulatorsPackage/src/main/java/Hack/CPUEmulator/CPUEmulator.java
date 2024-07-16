@@ -109,6 +109,10 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
         init();
     }
 
+    public void setCPUTimeout(long timeout){
+        cpu.maxCycles=timeout;
+    }
+
     /**
      * Constructs a new CPU Emulator with the given GUI component.
      */
@@ -158,6 +162,10 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
 
     public String getName() {
         return "CPU Emulator";
+    }
+
+    public int getNumberOfRAMLocationsAccessed(){
+        return cpu.getRAM().getNumberOfRAMLocationsAccessed();
     }
 
     /**

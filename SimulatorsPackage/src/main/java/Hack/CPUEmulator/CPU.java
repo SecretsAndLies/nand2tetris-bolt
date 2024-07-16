@@ -51,6 +51,9 @@ public class CPU implements Cloneable
     // The time that passed since the program started running.
     protected long time;
 
+    // The max number of cycles the program should run for before timing out.
+    protected long maxCycles = 0;
+
     // An assembler translator
     protected HackAssemblerTranslator assemblerTranslator;
 
@@ -70,6 +73,10 @@ public class CPU implements Cloneable
         A.setUpdatePointer(false);
 
         assemblerTranslator = HackAssemblerTranslator.getInstance();
+    }
+
+    public void setMaxCycles(long maxCycles) {
+        this.maxCycles = maxCycles;
     }
 
     public CPU clone()  {
@@ -162,6 +169,9 @@ public class CPU implements Cloneable
 	 * address or jump when A is an illegal address).
      */
     public void executeInstruction() throws ProgramException {
+        if(maxCycles>0 && time>maxCycles){
+            throw new ProgramException("Code timed out. Ran for "+maxCycles +" cycles.");
+        }
         short instruction = rom.getValueAt(PC.get());
         boolean pcChanged = false;
 

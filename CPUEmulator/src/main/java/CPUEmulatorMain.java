@@ -30,8 +30,8 @@ public class CPUEmulatorMain
    * The command line CPU Emulator program.
    */
   public static void main(String[] args) {
-        if (args.length > 1)
-            System.err.println("Usage: java CPUEmulatorMain [script name]");
+        if (args.length > 2)
+            System.err.println("Usage: java CPUEmulatorMain [script name] [timeout (0) for infinite]");
         else if (args.length == 0) {
             try {
                 UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -47,6 +47,7 @@ public class CPUEmulatorMain
         }
         else {
             CPUEmulator cpuEmulator = new CPUEmulator();
+            cpuEmulator.setCPUTimeout(Long.valueOf(args[1]));
             new HackController(cpuEmulator, args[0]);
             // the rest of this will not run if Hack Controller fails, it exits in failure -1 with a message.
             // otherwise, sucess message is printed, followed by this.
@@ -56,7 +57,7 @@ public class CPUEmulatorMain
             } catch (VariableException e) {
                 throw new RuntimeException(e);
             }
-            obj.put("ram_used", 11); // todo: have this actually update with ram used.
+            obj.put("ram_used", cpuEmulator.getNumberOfRAMLocationsAccessed()); // todo: have this actually update with ram used.
             System.out.println(obj);
         }
     }
