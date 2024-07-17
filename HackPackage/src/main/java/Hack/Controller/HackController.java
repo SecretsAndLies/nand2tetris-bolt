@@ -601,19 +601,13 @@ public class HackController
             throw new ControllerException("No output file specified");
 
         varList = (VariableFormat[])command.getArg();
-        StringBuffer line = new StringBuffer("|");
-
+        StringBuffer line = new StringBuffer();
         for (int i = 0; i < varList.length; i++) {
-            int space = varList[i].padL + varList[i].padR + varList[i].len;
-            String varName = varList[i].varName.length() > space ?
-                             varList[i].varName.substring(0, space) : varList[i].varName;
-            int leftSpace = (int)((space - varName.length()) / 2);
-            int rightSpace = space - leftSpace - varName.length();
-
-            line.append(SPACES.substring(0, leftSpace) + varName +
-                        SPACES.substring(0, rightSpace) + '|');
+            line.append(varList[i].varName);
+            if (i < varList.length - 1) {
+                line.append(',');
+            }
         }
-
         outputAndCompare(line.toString());
     }
 
@@ -622,10 +616,10 @@ public class HackController
         if (output == null)
             throw new ControllerException("No output file specified");
 
-        StringBuffer line = new StringBuffer("|");
+        StringBuffer line = new StringBuffer();
 
         for (int i = 0; i < varList.length; i++) {
-            // find value string (convert to require format if necessary)
+
             String value = simulator.getValue(varList[i].varName);
             if (varList[i].format != VariableFormat.STRING_FORMAT) {
                 int numValue;
@@ -640,17 +634,10 @@ public class HackController
                     value = Conversions.decimalToBinary(numValue, 16);
             }
 
-            if (value.length() > varList[i].len)
-                value = value.substring(value.length() - varList[i].len);
-
-            int leftSpace = varList[i].padL +
-                            (varList[i].format == VariableFormat.STRING_FORMAT ?
-                             0 : (varList[i].len - value.length()));
-            int rightSpace = varList[i].padR +
-                            (varList[i].format == VariableFormat.STRING_FORMAT ?
-                             (varList[i].len - value.length()) : 0);
-            line.append(SPACES.substring(0, leftSpace) + value +
-                        SPACES.substring(0, rightSpace) + '|');
+            line.append(value);
+            if (i < varList.length - 1) {
+                line.append(',');
+            }
         }
 
         outputAndCompare(line.toString());
