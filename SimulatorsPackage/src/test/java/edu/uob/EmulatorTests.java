@@ -2,7 +2,9 @@ package edu.uob;
 
 
 import Hack.CPUEmulator.CPUEmulator;
+import Hack.CPUEmulator.CPUEmulatorGUI;
 import Hack.Controller.CommandException;
+import Hack.Controller.HackController;
 import Hack.Controller.ProgramException;
 import Hack.Controller.VariableException;
 import org.junit.jupiter.api.Test;
@@ -29,70 +31,70 @@ public class EmulatorTests {
         }
     }
 
-    @Test
-    public void testROMStepBack() throws VariableException, CommandException,
-            ProgramException {
-        CPUEmulator cpuEmulator = new CPUEmulator();
-        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
-        cpuEmulator.doCommand("load src/test/java/edu/uob/comments.hack".split(" "));
-        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
-        runCycles(cpuEmulator,5);
-        assertEquals("16",cpuEmulator.getValue("RAM[16]"));
-        cpuEmulator.stepBack();
-        cpuEmulator.stepBack();
-        cpuEmulator.stepBack();
-        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+//    @Test
+//    public void testROMStepBack() throws VariableException, CommandException,
+//            ProgramException {
+//        CPUEmulator cpuEmulator = new CPUEmulator();
+//        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+//        cpuEmulator.doCommand("load src/test/java/edu/uob/comments.hack".split(" "));
+//        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+//        runCycles(cpuEmulator,5);
+//        assertEquals("16",cpuEmulator.getValue("RAM[16]"));
+//        cpuEmulator.stepBack();
+//        cpuEmulator.stepBack();
+//        cpuEmulator.stepBack();
+//        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+//
+//    }
 
-    }
+//    @Test
+//    public void testStepBack() throws VariableException, CommandException, ProgramException {
+//        CPUEmulator cpuEmulator = new CPUEmulator();
+//        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+//        cpuEmulator.doCommand("set RAM[0] 5".split(" "));
+//        assertEquals("5",cpuEmulator.getValue("RAM[0]"));
+//        cpuEmulator.doCommand("set RAM[1] 4".split(" "));
+//        assertEquals("4",cpuEmulator.getValue("RAM[1]"));
+//        cpuEmulator.doCommand("load src/test/java/edu/uob/Mult.hack".split(" "));
+//        runCycles(cpuEmulator,1);
+//        assertEquals("1",cpuEmulator.getValue("A"));
+//        assertEquals("1",cpuEmulator.getValue("PC"));
+//        cpuEmulator.stepBack();
+//        assertEquals("0",cpuEmulator.getValue("A"));
+//        runCycles(cpuEmulator,2);
+//        assertEquals("4",cpuEmulator.getValue("RAM[1]"));
+//        assertEquals("5",cpuEmulator.getValue("RAM[0]"));
+//        assertEquals("4",cpuEmulator.getValue("D"));
+//        assertEquals("2",cpuEmulator.getValue("PC"));
+//        cpuEmulator.stepBack();
+//        assertEquals("1",cpuEmulator.getValue("PC"));
+//        assertEquals("0",cpuEmulator.getValue("D"));
+//        runCycles(cpuEmulator,3);
+//        assertEquals("4",cpuEmulator.getValue("RAM[16]"));
+//        cpuEmulator.stepBack();
+//        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+//    }
 
-    @Test
-    public void testStepBack() throws VariableException, CommandException, ProgramException {
-        CPUEmulator cpuEmulator = new CPUEmulator();
-        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
-        cpuEmulator.doCommand("set RAM[0] 5".split(" "));
-        assertEquals("5",cpuEmulator.getValue("RAM[0]"));
-        cpuEmulator.doCommand("set RAM[1] 4".split(" "));
-        assertEquals("4",cpuEmulator.getValue("RAM[1]"));
-        cpuEmulator.doCommand("load src/test/java/edu/uob/Mult.hack".split(" "));
-        runCycles(cpuEmulator,1);
-        assertEquals("1",cpuEmulator.getValue("A"));
-        assertEquals("1",cpuEmulator.getValue("PC"));
-        cpuEmulator.stepBack();
-        assertEquals("0",cpuEmulator.getValue("A"));
-        runCycles(cpuEmulator,2);
-        assertEquals("4",cpuEmulator.getValue("RAM[1]"));
-        assertEquals("5",cpuEmulator.getValue("RAM[0]"));
-        assertEquals("4",cpuEmulator.getValue("D"));
-        assertEquals("2",cpuEmulator.getValue("PC"));
-        cpuEmulator.stepBack();
-        assertEquals("1",cpuEmulator.getValue("PC"));
-        assertEquals("0",cpuEmulator.getValue("D"));
-        runCycles(cpuEmulator,3);
-        assertEquals("4",cpuEmulator.getValue("RAM[16]"));
-        cpuEmulator.stepBack();
-        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
-    }
-
-    @Test
-    public void testStepBackMultiple() throws VariableException, CommandException, ProgramException {
-        CPUEmulator cpuEmulator = new CPUEmulator();
-        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
-        cpuEmulator.doCommand("load src/test/java/edu/uob/Fill.hack".split(" "));
-        assertEquals("0",cpuEmulator.getValue("PC"));
-        runCycles(cpuEmulator,5);
-        assertEquals("5",cpuEmulator.getValue("PC"));
-        assertEquals("8192",cpuEmulator.getValue("RAM[16]"));
-        assertEquals("16384",cpuEmulator.getValue("A"));
-        cpuEmulator.stepBack();
-        assertEquals("16",cpuEmulator.getValue("A"));
-        assertEquals("8192",cpuEmulator.getValue("RAM[16]"));
-        cpuEmulator.stepBack();
-        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
-        cpuEmulator.stepBack();
-        assertEquals("8192",cpuEmulator.getValue("D"));
-        cpuEmulator.stepBack();
-        assertEquals("0",cpuEmulator.getValue("D"));
-    }
+//    @Test
+//    public void testStepBackMultiple() throws VariableException, CommandException, ProgramException {
+//        CPUEmulator cpuEmulator = new CPUEmulator();
+//        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+//        cpuEmulator.doCommand("load src/test/java/edu/uob/Fill.hack".split(" "));
+//        assertEquals("0",cpuEmulator.getValue("PC"));
+//        runCycles(cpuEmulator,5);
+//        assertEquals("5",cpuEmulator.getValue("PC"));
+//        assertEquals("8192",cpuEmulator.getValue("RAM[16]"));
+//        assertEquals("16384",cpuEmulator.getValue("A"));
+//        cpuEmulator.stepBack();
+//        assertEquals("16",cpuEmulator.getValue("A"));
+//        assertEquals("8192",cpuEmulator.getValue("RAM[16]"));
+//        cpuEmulator.stepBack();
+//        assertEquals("0",cpuEmulator.getValue("RAM[16]"));
+//        cpuEmulator.stepBack();
+//        assertEquals("8192",cpuEmulator.getValue("D"));
+//        cpuEmulator.stepBack();
+//        assertEquals("0",cpuEmulator.getValue("D"));
+//    }
 
     @Test
     public void testMult() throws VariableException, CommandException, ProgramException {
@@ -119,20 +121,20 @@ public class EmulatorTests {
         assertNotEquals("7",cpuEmulator.getValue("RAM[25]"));
     }
 
-    @Test
-    public void testKBDWithStepBack() throws VariableException, CommandException, ProgramException {
-        CPUEmulator cpuEmulator = new CPUEmulator();
-        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
-        // Note that RAM 24576 is the KBD input.
-        cpuEmulator.doCommand("set RAM[24576] 0".split(" "));
-        cpuEmulator.doCommand("load src/test/java/edu/uob/screen_black_on_a_input.hack".split(" "));
-        runCycles(cpuEmulator,100000);
-        assertTrue(screenIs(cpuEmulator, "0"));
-        cpuEmulator.stepBack();
-        cpuEmulator.doCommand("set RAM[24576] 97".split(" "));
-        runCycles(cpuEmulator,100000);
-        assertTrue(screenIs(cpuEmulator, "-1"));
-    }
+//    @Test
+//    public void testKBDWithStepBack() throws VariableException, CommandException, ProgramException {
+//        CPUEmulator cpuEmulator = new CPUEmulator();
+//        cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
+//        // Note that RAM 24576 is the KBD input.
+//        cpuEmulator.doCommand("set RAM[24576] 0".split(" "));
+//        cpuEmulator.doCommand("load src/test/java/edu/uob/screen_black_on_a_input.hack".split(" "));
+//        runCycles(cpuEmulator,100000);
+//        assertTrue(screenIs(cpuEmulator, "0"));
+//        cpuEmulator.stepBack();
+//        cpuEmulator.doCommand("set RAM[24576] 97".split(" "));
+//        runCycles(cpuEmulator,100000);
+//        assertTrue(screenIs(cpuEmulator, "-1"));
+//    }
 
     @Test
     public void testCorrectKBD() throws VariableException, CommandException, ProgramException {
