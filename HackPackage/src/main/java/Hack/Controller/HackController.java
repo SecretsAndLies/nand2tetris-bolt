@@ -1159,6 +1159,9 @@ public class HackController
 
         public void setMode(int animationMode) {
             this.animationMode = animationMode;
+            if(animationMode==NO_DISPLAY_CHANGES){
+                gui.disableStepBack();
+            }
         }
 
         public void run() {

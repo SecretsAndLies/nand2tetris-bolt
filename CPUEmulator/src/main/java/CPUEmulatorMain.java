@@ -51,14 +51,14 @@ public class CPUEmulatorMain
             new HackController(cpuEmulator, args[0]);
             // the rest of this will not run if Hack Controller fails, it exits in failure -1 with a message.
             // otherwise, sucess message is printed, followed by this.
-            org.json.JSONObject obj = new org.json.JSONObject();
+            org.json.JSONObject jsonResponse = new org.json.JSONObject();
             try {
-                obj.put("cycles_used", Integer.valueOf(cpuEmulator.getValue("time")));
+                jsonResponse.put("cycles_used", Integer.valueOf(cpuEmulator.getValue("time")));
             } catch (VariableException e) {
                 throw new RuntimeException(e);
             }
-            obj.put("ram_used", cpuEmulator.getNumberOfRAMLocationsAccessed());
-            System.out.println(obj);
+            jsonResponse.put("ram_used", cpuEmulator.getNumberOfRAMLocationsAccessed());
+            System.out.println(jsonResponse);
         }
     }
 }

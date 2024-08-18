@@ -241,6 +241,12 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
     }
 
     private void addToCPUs(){
+        if(gui == null){
+            return;
+        }
+        if(animationMode==HackController.NO_DISPLAY_CHANGES){
+            return;
+        }
         if(oldCPUs.size()==NUM_CPUs_TO_SAVE){
             oldCPUs.removeFirst();
         }
@@ -328,6 +334,8 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
                 cpu.getA().disableUserInput();
                 cpu.getD().disableUserInput();
                 cpu.getPC().disableUserInput();
+                oldCPUs = new ArrayDeque<>();
+                // TODO: make step back unavailbe.
 
                 ScreenGUI screen = gui.getScreen();
                 if (screen != null)
