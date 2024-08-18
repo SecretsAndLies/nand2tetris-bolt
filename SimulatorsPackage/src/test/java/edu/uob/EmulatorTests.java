@@ -123,7 +123,7 @@ public class EmulatorTests {
     public void testKBDWithStepBack() throws VariableException, CommandException, ProgramException {
         CPUEmulator cpuEmulator = new CPUEmulator();
         cpuEmulator.setWorkingDir(new File(System.getProperty("user.dir")));
-        // set the keyboard bit of the ram to 0
+        // Note that RAM 24576 is the KBD input.
         cpuEmulator.doCommand("set RAM[24576] 0".split(" "));
         cpuEmulator.doCommand("load src/test/java/edu/uob/screen_black_on_a_input.hack".split(" "));
         runCycles(cpuEmulator,100000);
