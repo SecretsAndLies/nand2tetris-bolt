@@ -102,6 +102,10 @@ public class BreakpointVariablesWindow extends JFrame {
      */
     public void setVariables(String[] newVars) {
         for (int i=0;i<newVars.length;i++) {
+//            TODO: these are currently broken, so are not shown in the UI.
+            if(newVars[i].startsWith("RAM") || newVars[i].startsWith("ROM")){
+                continue;
+            }
             nameCombo.addItem(newVars[i]);
         }
     }
