@@ -80,7 +80,7 @@ public class ROM extends PointedMemory implements ProgramEventListener
     /**
      * Loads the given program file (HACK or ASM) into the ROM.
      */
-    public synchronized void loadProgram(String fileName) throws ProgramException {
+    public void loadProgram(String fileName, byte programEventType) throws ProgramException {
         short[] program = null;
 
         if (displayChanges)
@@ -104,7 +104,7 @@ public class ROM extends PointedMemory implements ProgramEventListener
                 gui.hideHighlight();
             }
 
-            notifyProgramListeners(ProgramEvent.LOAD, fileName);
+            notifyProgramListeners(programEventType, fileName);
 
         } catch (AssemblerException ae) {
             if (displayChanges)
@@ -121,9 +121,14 @@ public class ROM extends PointedMemory implements ProgramEventListener
     public void programChanged(ProgramEvent event) {
         switch (event.getType()) {
             case ProgramEvent.LOAD:
-                ROMLoadProgramTask task = new ROMLoadProgramTask(event.getProgramFileName());
+                ROMLoadProgramTask task = new ROMLoadProgramTask(event.getProgramFileName(), ProgramEvent.LOAD);
                 Thread t = new Thread(task);
                 t.start();
+                break;
+            case ProgramEvent.UPDATED:
+                ROMLoadProgramTask task2 = new ROMLoadProgramTask(event.getProgramFileName(), ProgramEvent.UPDATED);
+                Thread t2 = new Thread(task2);
+                t2.start();
                 break;
             case ProgramEvent.CLEAR:
                 notifyProgramListeners(ProgramEvent.CLEAR, null);
@@ -149,15 +154,17 @@ public class ROM extends PointedMemory implements ProgramEventListener
     class ROMLoadProgramTask implements Runnable {
 
         private String programName;
+        private byte programEventType;
 
-        public ROMLoadProgramTask(String programName) {
+        public ROMLoadProgramTask(String programName, byte programEventType) {
             this.programName = programName;
+            this.programEventType=programEventType;
         }
 
         public void run() {
             clearErrorListeners();
             try {
-                loadProgram(programName);
+                loadProgram(programName, programEventType);
             } catch (ProgramException pe) {
                 notifyErrorListeners(pe.getMessage());
             }

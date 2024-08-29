@@ -106,6 +106,11 @@ public class VMEmulatorComponent extends HackSimulatorComponent implements VMEmu
         program.loadProgram();
     }
 
+    @Override
+    public void forceLoadProgram() {
+
+    }
+
     /**
      * Returns the calculator GUI component.
      */

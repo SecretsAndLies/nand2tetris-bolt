@@ -42,6 +42,12 @@ public class ProgramEvent extends EventObject {
      */
     public static final byte CLEAR = 3;
 
+    /**
+     * event type for notifying that the program was cleared.
+     * supplied data = null
+     */
+    public static final byte UPDATED = 4;
+
     // The program's file name.
     private String programFileName;
 

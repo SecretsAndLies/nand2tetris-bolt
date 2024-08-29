@@ -37,9 +37,11 @@ public interface HackSimulatorGUI {
      */
     public void loadProgram();
 
-    /**
-     * Sets the name of the html file that contains the help usage.
-     */
+    public void forceLoadProgram();
+
+        /**
+         * Sets the name of the html file that contains the help usage.
+         */
     public void setUsageFileName(String fileName);
 
     /**

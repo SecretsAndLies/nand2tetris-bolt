@@ -20,6 +20,7 @@ package Hack.Controller;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.*;
+import java.nio.file.*;
 import java.util.Vector;
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
@@ -301,6 +302,12 @@ public class HackController
         stopMode();
         gui.disableStepBack();
         simulator.prepareGUI(); // prepares the gui after it is displayed
+    }
+
+    private void registerWatchServiceForAssembly(String filepath) {
+        FileWatcher fileWatcher = new FileWatcher(new File(filepath));
+        fileWatcher.addListener(this);
+        fileWatcher.run();
     }
 
     // Restarts the current script from the beginning.
@@ -920,13 +927,19 @@ public class HackController
     protected void reloadDefaultScript() {
         if (!currentScriptFile.equals(defaultScriptFile)) {
             gui.setAdditionalDisplay(NO_ADDITIONAL_DISPLAY);
-            try {
-                loadNewScript(defaultScriptFile, false);
-                rewind();
-            } catch (ScriptException se) {
-            } catch (ControllerException ce) {
-            }
+            forceLoadScript();
         }
+    }
+
+    // Reloads script file even if one is already loaded.
+    private void forceLoadScript(){
+        try {
+            loadNewScript(defaultScriptFile, false);
+            rewind();
+        } catch (ScriptException se) {
+        } catch (ControllerException ce) {
+        }
+
     }
 
     // Updates the current program file name in the gui's title and saves its dir
@@ -951,11 +964,16 @@ public class HackController
                 break;
             case ProgramEvent.LOAD:
                 updateProgramFile(event.getProgramFileName());
+                registerWatchServiceForAssembly(event.getProgramFileName());
                 if (!singleStepLocked) // new program was loaded manually
                     reloadDefaultScript();
                 break;
             case ProgramEvent.CLEAR:
+                // TODO: decativate the watch service?
                 gui.setTitle(simulator.getName() + getVersionString());
+                break;
+            case ProgramEvent.UPDATED:
+                this.simulator.forceLoadProgram();
                 break;
         }
     }

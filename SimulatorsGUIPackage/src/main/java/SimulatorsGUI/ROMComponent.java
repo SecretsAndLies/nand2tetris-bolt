@@ -79,6 +79,8 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
 
     private ArrayList<HackCommand> hackCommands;
 
+    private File currentFile;
+
     /**
      * Constructs a new ROMComponent.
      */
@@ -357,8 +359,20 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
     public void loadProgram() {
         int returnVal = fileChooser.showDialog(this, "Load ROM");
         if(returnVal == JFileChooser.APPROVE_OPTION) {
+            currentFile = fileChooser.getSelectedFile();
             notifyProgramListeners(ProgramEvent.LOAD,
-                                   fileChooser.getSelectedFile().getAbsolutePath());
+                    currentFile.getAbsolutePath());
+        }
+    }
+
+    public void forceLoadProgram(){
+        int choice = JOptionPane.showConfirmDialog(null,
+                "Your assembly file has been updated. Would you like to load this change?",
+                "Confirmation", JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            notifyProgramListeners(ProgramEvent.UPDATED,
+                    currentFile.getAbsolutePath());
         }
     }
 

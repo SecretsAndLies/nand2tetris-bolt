@@ -99,6 +99,11 @@ public class HardwareSimulatorComponent extends HackSimulatorComponent implement
 
     public void loadProgram() {}
 
+    @Override
+    public void forceLoadProgram() {
+
+    }
+
     /**
      * Returns the Gates panel.
      */

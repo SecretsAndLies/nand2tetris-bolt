@@ -87,6 +87,10 @@ public class CPUEmulatorComponent extends HackSimulatorComponent implements CPUE
         rom.loadProgram();
     }
 
+    public void forceLoadProgram(){
+        rom.forceLoadProgram();
+    }
+
     // Sets the names of the registers.
     private void setRegistersNames() {
         a.setName("A");
