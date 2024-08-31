@@ -103,36 +103,41 @@ public class Utilities {
      * Also required are the containing panel and the number of visible rows in the table.
      */
     public static void tableCenterScroll(JPanel panel, JTable table, int row) {
-        try {
-            SwingUtilities.invokeAndWait(() -> {
-                JScrollPane scrollPane = (JScrollPane) table.getParent().getParent();
-                JScrollBar bar = scrollPane.getVerticalScrollBar();
-                int beforeScrollValue = bar.getValue();
-                Rectangle r = table.getCellRect(row, 0, true);
-                table.scrollRectToVisible(r);
-                panel.repaint();
-                int afterScrollValue = bar.getValue();
-                double visibleRowsCount = computeVisibleRowsCount(table);
+        Runnable task = () -> {
+            JScrollPane scrollPane = (JScrollPane) table.getParent().getParent();
+            JScrollBar bar = scrollPane.getVerticalScrollBar();
+            int beforeScrollValue = bar.getValue();
+            Rectangle r = table.getCellRect(row, 0, true);
+            table.scrollRectToVisible(r);
+            panel.repaint();
+            int afterScrollValue = bar.getValue();
+            double visibleRowsCount = computeVisibleRowsCount(table);
 
-                // The scroller moved down
-                if (afterScrollValue > beforeScrollValue) {
-                    Rectangle newRectangle = table.getCellRect((int) (Math.min(row + visibleRowsCount / 2, table.getRowCount() - 1)), 0, true);
-                    table.scrollRectToVisible(newRectangle);
-                    panel.repaint();
-                }
-                // The scroller moved up.
-                else if (afterScrollValue < beforeScrollValue) {
-                    Rectangle newRectangle = table.getCellRect((int) (Math.max(row - visibleRowsCount / 2, 0)), 0, true);
-                    table.scrollRectToVisible(newRectangle);
-                    panel.repaint();
-                }
-            });
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            // The scroller moved down
+            if (afterScrollValue > beforeScrollValue) {
+                Rectangle newRectangle = table.getCellRect((int) (Math.min(row + visibleRowsCount / 2, table.getRowCount() - 1)), 0, true);
+                table.scrollRectToVisible(newRectangle);
+                panel.repaint();
+            }
+            // The scroller moved up
+            else if (afterScrollValue < beforeScrollValue) {
+                Rectangle newRectangle = table.getCellRect((int) (Math.max(row - visibleRowsCount / 2, 0)), 0, true);
+                table.scrollRectToVisible(newRectangle);
+                panel.repaint();
+            }
+        };
+
+        if (SwingUtilities.isEventDispatchThread()) {
+            task.run();
+        } else {
+            try {
+                SwingUtilities.invokeAndWait(task);
+            } catch (InterruptedException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
+
 
     /**
      * Returns the number of visible rows in the given table.
