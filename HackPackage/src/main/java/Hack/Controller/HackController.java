@@ -219,6 +219,9 @@ public class HackController
     // The default script file object
     private File defaultScriptFile;
 
+    // The file watcher of the loaded assembly file.
+    private FileWatcher fileWatcher;
+
     /**
      * Constructs a new HackController with the given script file name.
      * The script will be executed and the final result will be printed.
@@ -305,7 +308,10 @@ public class HackController
     }
 
     private void registerWatchServiceForAssembly(String filepath) {
-        FileWatcher fileWatcher = new FileWatcher(new File(filepath));
+        if(fileWatcher != null){
+            fileWatcher.stopThread();
+        }
+        fileWatcher = new FileWatcher(new File(filepath));
         fileWatcher.addListener(this);
         fileWatcher.run();
     }
