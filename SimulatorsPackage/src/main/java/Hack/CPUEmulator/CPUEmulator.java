@@ -434,6 +434,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
      */
     public void programChanged(ProgramEvent event) {
         if(event.getType()==ProgramEvent.UPDATED){
+            refresh();
             return; // this is already dealt with since the HackController is the next listener and it sent this event.
         }
         super.programChanged(event);
