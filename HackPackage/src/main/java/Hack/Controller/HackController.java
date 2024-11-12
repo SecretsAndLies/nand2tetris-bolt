@@ -313,7 +313,7 @@ public class HackController
         }
         fileWatcher = new FileWatcher(new File(filepath));
         fileWatcher.addListener(this);
-        fileWatcher.run();
+        fileWatcher.start();
     }
 
     // Restarts the current script from the beginning.
