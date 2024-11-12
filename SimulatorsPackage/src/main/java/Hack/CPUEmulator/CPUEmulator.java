@@ -22,6 +22,7 @@ import Hack.ComputerParts.*;
 import Hack.Events.*;
 import Hack.Utilities.*;
 
+import java.io.File;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -283,7 +284,7 @@ public class CPUEmulator extends HackSimulator implements ComputerPartErrorEvent
             if (command.length != 2)
                 throw new CommandException("Illegal number of arguments to command", command);
 
-            String fileName = workingDir.getAbsolutePath() + "/" + command[1];
+            String fileName = workingDir.getAbsolutePath() + File.separator + command[1];
             cpu.getROM().loadProgram(fileName, ProgramEvent.LOAD);
             int oldAnimationMode = animationMode;
             setAnimationMode(HackController.DISPLAY_CHANGES);
