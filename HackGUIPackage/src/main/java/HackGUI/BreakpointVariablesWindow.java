@@ -101,12 +101,8 @@ public class BreakpointVariablesWindow extends JFrame {
      * Sets the list of recognized variables with the given one.
      */
     public void setVariables(String[] newVars) {
-        for (int i=0;i<newVars.length;i++) {
-//            TODO: these are currently broken, so are not shown in the UI.
-            if(newVars[i].startsWith("RAM") || newVars[i].startsWith("ROM")){
-                continue;
-            }
-            nameCombo.addItem(newVars[i]);
+        for (String newVar : newVars) {
+            nameCombo.addItem(newVar);
         }
     }
 
@@ -187,11 +183,58 @@ public class BreakpointVariablesWindow extends JFrame {
     /**
      * Implementing the action of pressing the ok button.
      */
-    public void okButton_actionPerformed(ActionEvent e) {
-        breakpoint = new Breakpoint(nameTxt.getText(),valueTxt.getText());
+    public void okButton_actionPerformed(ActionEvent e)  {
+        String variableName = nameTxt.getText();
+        if(!variableNameIsValid(variableName)){
+            JOptionPane.showMessageDialog(null,
+                    "'"+variableName + "'" +" is an invalid variable name " +
+                            "\nMust " +
+                            "be 'A', " +
+                            "'D'," +
+                            " 'M', 'RAM[Number]' or 'ROM[Number]'");
+            return;
+        }
+        String value = valueTxt.getText();
+        if(!valueIsValid(value)){
+            JOptionPane.showMessageDialog(null,
+                    "'"+value +"'"+ " is an invalid value " + "\n Expecting an " +
+                            "integer.");
+            return;
+        }
+        breakpoint = new Breakpoint(variableName, value);
         setVisible(false);
         notifyListeners();
     }
+
+    private boolean valueIsValid(String value){
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    private boolean variableNameIsValid(String variableName){
+        if (variableName.equals("A")){
+            return true;
+        }
+        if (variableName.equals("D")){
+            return true;
+        }
+        if (variableName.equals("M")){
+            return true;
+        }
+        if (variableName.matches("^RAM\\[\\d+\\]$")){
+            return true;
+        }
+        if (variableName.matches("^ROM\\[\\d+\\]$")){
+            return true;
+        }
+        // technically the index also has to between 0-32767 because RAM[-1]
+        // doesn't exist, for example.
+        return  false;
+        }
 
     /**
      * Implementing the action of pressing the cancel button.
