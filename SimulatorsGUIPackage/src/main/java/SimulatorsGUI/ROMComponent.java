@@ -371,7 +371,7 @@ public class ROMComponent extends PointedMemoryComponent implements ROMGUI {
                 "Confirmation", JOptionPane.YES_NO_OPTION);
 
         if (choice == JOptionPane.YES_OPTION) {
-            notifyProgramListeners(ProgramEvent.UPDATED,
+            notifyProgramListeners(ProgramEvent.LOAD,
                     currentFile.getAbsolutePath());
         }
     }
