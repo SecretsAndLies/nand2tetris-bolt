@@ -697,9 +697,11 @@ public class HackController
         if (out.length() != cmp.length()) {
             return false;
         }
-        StringCharacterIterator outi = new StringCharacterIterator(out);
-        StringCharacterIterator cmpi = new StringCharacterIterator(cmp);
-        for (outi.first(), cmpi.first();
+        StringCharacterIterator outi = new java.text.StringCharacterIterator(out);
+        StringCharacterIterator cmpi = new java.text.StringCharacterIterator(cmp);
+        outi.first();
+        cmpi.first();
+        for (;
              outi.current() != CharacterIterator.DONE;
              outi.next(), cmpi.next()) {
             if (cmpi.current() != '*' && outi.current() != cmpi.current()) {
