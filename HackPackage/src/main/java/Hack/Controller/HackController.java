@@ -1078,7 +1078,9 @@ public class HackController
                         programHalted = false;
                         gui.enableSingleStep();
                         gui.enableFastForward();
-                        gui.enableStepBack();
+                        if (animationMode != NO_DISPLAY_CHANGES) {
+                            gui.enableStepBack();
+                        }
                     }
                     break;
                 case ControllerEvent.DISABLE_MOVEMENT:
