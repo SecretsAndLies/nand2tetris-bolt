@@ -28,7 +28,7 @@ public class Definitions {
     /**
      * Current software version
      */
-    public static final String version = "2.6";
+    public static final String version = "2.6.1";
 
     /**
      * Size of RAM
