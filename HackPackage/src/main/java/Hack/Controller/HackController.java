@@ -1091,7 +1091,9 @@ public class HackController
                     gui.enableSingleStep();
                     gui.enableFastForward();
                     gui.enableRewind();
-                    gui.enableStepBack();
+                    // ENABLE_MOVEMENT happens after the ROM code has changed, which would break stepback history.
+                    gui.disableStepBack();
+
                     break;
                 case ControllerEvent.DISPLAY_MESSAGE:
                     displayMessage((String)event.getData(), false);
