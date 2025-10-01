@@ -1140,7 +1140,9 @@ public class HackController
                 }
                 gui.enableScript();
                 gui.enableRewind();
-                gui.enableStepBack();
+                if (animationMode != NO_DISPLAY_CHANGES) {
+                    gui.enableStepBack();
+                }
             }
 
             if (animationMode == NO_DISPLAY_CHANGES) {
