@@ -131,7 +131,7 @@ public class ControllerComponent extends JFrame implements  ControllerGUI,
         additionalDisplayCombo = new TitledComboBox("View:", "View options",
                                                     new String[]{"Script", "Output", "Compare",
                                                                  "Screen"}, 80);
-        animationCombo = new TitledComboBox("Animate:", "Animtion type",
+        animationCombo = new TitledComboBox("Animate:", "Animation type",
                                             new String[]{"Program flow", "Program & data flow",
                                                          "No animation"}, 135);
         scriptComponent = new FileDisplayComponent();
