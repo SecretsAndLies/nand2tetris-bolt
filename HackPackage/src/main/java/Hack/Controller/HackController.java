@@ -364,9 +364,12 @@ public class HackController
             gui.enableFastForward();
             gui.enableScript();
             gui.enableRewind();
-            gui.enableStepBack();
             gui.disableStop();
             gui.enableAnimationModes();
+
+            if (animationMode != NO_DISPLAY_CHANGES) {
+                gui.enableStepBack();
+            }
 
             if (animationMode == NO_DISPLAY_CHANGES)
                 gui.setCurrentScriptLine(script.getLineNumberAt(currentCommandIndex));
